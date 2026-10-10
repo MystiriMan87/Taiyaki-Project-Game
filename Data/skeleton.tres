@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="CharacterStats" load_steps=3 format=3 uid="uid://8n88ysomuw88"]
+
+[ext_resource type="Script" uid="uid://dqvwo37xxrj4g" path="res://Scripts/character_stats.gd" id="1_3vfpu"]
+[ext_resource type="Texture2D" uid="uid://xrnfrgdf37ao" path="res://icon.png" id="2_8ymis"]
+
+[resource]
+script = ExtResource("1_3vfpu")
+display_name = "Skeleton"
+max_hp = 50
+texture = ExtResource("2_8ymis")
+battle_sale = 0.5
+metadata/_custom_type_script = "uid://dqvwo37xxrj4g"

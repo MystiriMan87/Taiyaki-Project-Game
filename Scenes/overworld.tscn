@@ -1,0 +1,22 @@
+[gd_scene load_steps=7 format=3 uid="uid://cpx7gy7r8afis"]
+
+[ext_resource type="Script" uid="uid://cj0jantgygn2y" path="res://Scripts/overworld.gd" id="1_i8gr5"]
+[ext_resource type="PackedScene" uid="uid://b00ag1dqipkpb" path="res://Scenes/player.tscn" id="2_i8gr5"]
+[ext_resource type="Script" uid="uid://dqvwo37xxrj4g" path="res://Scripts/character_stats.gd" id="3_rmeny"]
+[ext_resource type="Resource" uid="uid://f5r8uj05wyun" path="res://Data/slime.tres" id="4_hf0oe"]
+[ext_resource type="Texture2D" uid="uid://xrnfrgdf37ao" path="res://icon.png" id="4_s368d"]
+[ext_resource type="Resource" uid="uid://8n88ysomuw88" path="res://Data/skeleton.tres" id="5_2ngsa"]
+
+[node name="Overworld" type="Node2D"]
+script = ExtResource("1_i8gr5")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+
+[node name="Player" parent="." instance=ExtResource("2_i8gr5")]
+position = Vector2(229, 113)
+possible_enemies = Array[ExtResource("3_rmeny")]([ExtResource("4_hf0oe"), ExtResource("5_2ngsa")])
+
+[node name="Icon" type="Sprite2D" parent="."]
+position = Vector2(399, 335)
+scale = Vector2(9.2, 1)
+texture = ExtResource("4_s368d")

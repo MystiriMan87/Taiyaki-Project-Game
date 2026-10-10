@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="BattleAction" load_steps=2 format=3 uid="uid://cg2djgn0vbio5"]
+
+[ext_resource type="Script" uid="uid://dd50utfwvmokr" path="res://Scripts/battle_action.gd" id="1_d6yiq"]
+
+[resource]
+script = ExtResource("1_d6yiq")
+display_name = "Fire Slash"
+mp_cost = 6
+animation = "fire_attack"
+target_type = 1
+damage_type = 1
+metadata/_custom_type_script = "uid://dd50utfwvmokr"

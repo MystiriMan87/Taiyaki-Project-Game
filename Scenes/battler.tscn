@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://byfh7nojc5q7y"]
+
+[ext_resource type="Script" uid="uid://tl0exgeecq5p" path="res://Scenes/battler.gd" id="1_ay6uu"]
+
+[node name="Battler" type="Node2D"]
+script = ExtResource("1_ay6uu")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CharacterStats" load_steps=3 format=3 uid="uid://f5r8uj05wyun"]
+
+[ext_resource type="Script" uid="uid://dqvwo37xxrj4g" path="res://Scripts/character_stats.gd" id="1_rg8ur"]
+[ext_resource type="Texture2D" uid="uid://xrnfrgdf37ao" path="res://icon.png" id="2_5bo1n"]
+
+[resource]
+script = ExtResource("1_rg8ur")
+display_name = "Slime"
+max_hp = 40
+speed = 8
+texture = ExtResource("2_5bo1n")
+battle_sale = 0.5
+metadata/_custom_type_script = "uid://dqvwo37xxrj4g"
