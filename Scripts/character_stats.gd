@@ -14,3 +14,5 @@ extends Resource
 @export var max_mp := 20
 @export var magic := 14
 @export var actions: Array[BattleAction] = []
+@export var callout_offset := -100.0# negative = higher above the character's center
+@export var footprint_height := 0.0   # 0 = measure automatically, otherwise use this many pixels

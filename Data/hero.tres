@@ -10,7 +10,8 @@
 script = ExtResource("1_8k3yn")
 speed = 12
 sprite_frames = ExtResource("2_sfurx")
-battle_scale = 4.0
+battle_scale = 4.5
 hp_bar_offset = 3.0
 actions = Array[ExtResource("1_tpuqn")]([ExtResource("2_gt8d5"), ExtResource("3_xt4pn")])
+footprint_height = 90.0
 metadata/_custom_type_script = "uid://dqvwo37xxrj4g"

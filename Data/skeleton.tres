@@ -1,12 +1,16 @@
-[gd_resource type="Resource" script_class="CharacterStats" load_steps=3 format=3 uid="uid://8n88ysomuw88"]
+[gd_resource type="Resource" script_class="CharacterStats" load_steps=5 format=3 uid="uid://8n88ysomuw88"]
 
 [ext_resource type="Script" uid="uid://dqvwo37xxrj4g" path="res://Scripts/character_stats.gd" id="1_3vfpu"]
-[ext_resource type="Texture2D" uid="uid://xrnfrgdf37ao" path="res://icon.png" id="2_8ymis"]
+[ext_resource type="Script" uid="uid://dd50utfwvmokr" path="res://Scripts/battle_action.gd" id="1_8uie1"]
+[ext_resource type="Resource" uid="uid://dllj3vk8wqta3" path="res://Data/bone_smash.tres" id="2_pabpf"]
+[ext_resource type="SpriteFrames" uid="uid://c2u0fffn7pxey" path="res://Data/skeleton_frames.tres" id="3_pabpf"]
 
 [resource]
 script = ExtResource("1_3vfpu")
 display_name = "Skeleton"
 max_hp = 50
-texture = ExtResource("2_8ymis")
-battle_sale = 0.5
+sprite_frames = ExtResource("3_pabpf")
+battle_scale = 4.5
+actions = Array[ExtResource("1_8uie1")]([ExtResource("2_pabpf")])
+footprint_height = 100.0
 metadata/_custom_type_script = "uid://dqvwo37xxrj4g"

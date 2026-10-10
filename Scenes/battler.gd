@@ -78,6 +78,16 @@ func set_defending(value: bool) -> void:
 		play_anim("defend")
 	else:
 		play_anim("idle")
+		
+func get_footprint_height() -> float:
+	if stats.footprint_height > 0.0:
+		return stats.footprint_height
+	var frames := sprite.sprite_frames
+	if frames and frames.has_animation("idle") and frames.get_frame_count("idle") > 0:
+		var tex := frames.get_frame_texture("idle", 0)
+		if tex:
+			return tex.get_height() * absf(sprite.scale.y)
+	return 64.0
 
 # --- Damage -------------------------------------------------------------
 
@@ -96,9 +106,10 @@ func take_damage(amount: int) -> void:
 	else:
 		hp_bar.hide()
 		if sprite.sprite_frames.has_animation("dead"):
-			play_anim("dead")
-		else:
-			modulate = Color(1, 1, 1, 0.3)
+			await play_anim("dead", true)
+		if not is_player:
+			var tw := create_tween()
+			tw.tween_property(self, "modulate:a", 0.0, 0.6)
 
 # --- Health bar ---------------------------------------------------------
 

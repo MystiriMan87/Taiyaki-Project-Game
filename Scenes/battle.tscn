@@ -1,10 +1,16 @@
-[gd_scene load_steps=3 format=3 uid="uid://ba5cu3y3ol05a"]
+[gd_scene load_steps=4 format=3 uid="uid://ba5cu3y3ol05a"]
 
 [ext_resource type="Script" uid="uid://byvdwrvlir4o6" path="res://Scenes/battle.gd" id="1_w7k78"]
+[ext_resource type="Texture2D" uid="uid://cl8g80pv8eugy" path="res://Art/PC _ Computer - Final Fantasy II (Pixel Remaster) - Battle - Battle Backgrounds (1).png" id="2_1ruyk"]
 [ext_resource type="Script" uid="uid://c2mv27sihys65" path="res://Scripts/command_menu.gd" id="2_oxf17"]
 
 [node name="Battle" type="Node2D"]
 script = ExtResource("1_w7k78")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(641.50006, 356.50003)
+scale = Vector2(2.7182202, 3.1125546)
+texture = ExtResource("2_1ruyk")
 
 [node name="Party_Enemies" type="Node2D" parent="."]
 
