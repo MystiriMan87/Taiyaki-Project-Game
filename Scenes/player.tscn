@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://b00ag1dqipkpb"]
 
 [ext_resource type="Script" uid="uid://b1indstsls1sb" path="res://Scripts/player.gd" id="1_v0iea"]
-[ext_resource type="Texture2D" uid="uid://bn32k8w5jj13x" path="res://icon.svg" id="2_cvnsp"]
+[ext_resource type="SpriteFrames" uid="uid://dwlfi2ebmmm8q" path="res://Data/player_frames.tres" id="2_cvnsp"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_s2iog"]
 radius = 56.22277
@@ -9,12 +9,12 @@ radius = 56.22277
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_v0iea")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(-29, 0)
-scale = Vector2(0.546875, 1)
-texture = ExtResource("2_cvnsp")
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_s2iog")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(4, 4)
+sprite_frames = ExtResource("2_cvnsp")
+animation = &"idle"
