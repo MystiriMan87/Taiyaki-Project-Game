@@ -7,7 +7,7 @@
 script = ExtResource("1_117en")
 display_name = "Magic Crystal"
 mp_cost = 10
-power = 8.0
+power = 2.0
 animation = "ice_attack"
 damage_type = 2
 projectile_frames = ExtResource("1_430hs")
