@@ -1,11 +1,13 @@
-[gd_scene load_steps=7 format=3 uid="uid://cpx7gy7r8afis"]
+[gd_scene load_steps=9 format=3 uid="uid://cpx7gy7r8afis"]
 
 [ext_resource type="Script" uid="uid://cj0jantgygn2y" path="res://Scripts/overworld.gd" id="1_i8gr5"]
 [ext_resource type="PackedScene" uid="uid://b00ag1dqipkpb" path="res://Scenes/player.tscn" id="2_i8gr5"]
 [ext_resource type="Script" uid="uid://dqvwo37xxrj4g" path="res://Scripts/character_stats.gd" id="3_rmeny"]
+[ext_resource type="PackedScene" uid="uid://b7ytxj4o0444r" path="res://Scenes/OverworldEnemy.tscn" id="4_2ngsa"]
 [ext_resource type="Resource" uid="uid://f5r8uj05wyun" path="res://Data/slime.tres" id="4_hf0oe"]
 [ext_resource type="Texture2D" uid="uid://xrnfrgdf37ao" path="res://icon.png" id="4_s368d"]
 [ext_resource type="Resource" uid="uid://8n88ysomuw88" path="res://Data/skeleton.tres" id="5_2ngsa"]
+[ext_resource type="Texture2D" uid="uid://cl8g80pv8eugy" path="res://Art/PC _ Computer - Final Fantasy II (Pixel Remaster) - Battle - Battle Backgrounds (1).png" id="8_auytq"]
 
 [node name="Overworld" type="Node2D"]
 script = ExtResource("1_i8gr5")
@@ -14,9 +16,14 @@ script = ExtResource("1_i8gr5")
 
 [node name="Player" parent="." instance=ExtResource("2_i8gr5")]
 position = Vector2(229, 113)
-possible_enemies = Array[ExtResource("3_rmeny")]([ExtResource("4_hf0oe"), ExtResource("5_2ngsa")])
 
 [node name="Icon" type="Sprite2D" parent="."]
 position = Vector2(399, 335)
 scale = Vector2(9.2, 1)
 texture = ExtResource("4_s368d")
+
+[node name="OverworldEnemy" parent="." instance=ExtResource("4_2ngsa")]
+position = Vector2(-622, 340)
+stats = ExtResource("4_hf0oe")
+extra_pool = Array[ExtResource("3_rmeny")]([ExtResource("5_2ngsa")])
+battle_background = ExtResource("8_auytq")

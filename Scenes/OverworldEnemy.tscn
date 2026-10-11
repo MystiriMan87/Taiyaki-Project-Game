@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://b7ytxj4o0444r"]
+
+[ext_resource type="Script" uid="uid://bwtsna13qeq4n" path="res://Scripts/overworld_enemy.gd" id="1_11jdx"]
+[ext_resource type="SpriteFrames" uid="uid://bivbdm7gdstrg" path="res://Data/slime_frames.tres" id="2_vehws"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_734nh"]
+radius = 57.14018
+
+[node name="OverworldEnemy" type="Area2D"]
+script = ExtResource("1_11jdx")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("2_vehws")
+animation = &"walk"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_734nh")

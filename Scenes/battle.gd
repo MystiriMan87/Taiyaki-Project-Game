@@ -248,3 +248,7 @@ func _make_projectile(action: BattleAction) -> Node2D:
 	p.scale = Vector2.ONE * action.projectile_scale
 	p.z_index = 50
 	return p
+	
+func set_background(tex: Texture2D) -> void:
+	if tex:
+		$Background.texture = tex
