@@ -16,3 +16,5 @@ extends Resource
 @export var actions: Array[BattleAction] = []
 @export var callout_offset := -100.0# negative = higher above the character's center
 @export var footprint_height := 0.0   # 0 = measure automatically, otherwise use this many pixels
+@export var basic_attack: BattleAction
+@export var muzzle_offset := Vector2(40, -20) # where projectiles spawn, relative to the character, in the direction they face

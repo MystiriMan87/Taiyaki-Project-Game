@@ -1,0 +1,60 @@
+[gd_resource type="SpriteFrames" load_steps=9 format=3 uid="uid://cntctwdogvuxa"]
+
+[ext_resource type="Texture2D" uid="uid://dxvn5d7y8xnui" path="res://Tiny RPG Character Asset Pack 01 v2.0 -Full 22 Characters/Characters(100x100 split)/Wizard/Wizard with shadows/Wizard_Attack02_Effect.png" id="1_5cfbj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a6fh2"]
+atlas = ExtResource("1_5cfbj")
+region = Rect2(0, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tpb1o"]
+atlas = ExtResource("1_5cfbj")
+region = Rect2(100, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_emrvy"]
+atlas = ExtResource("1_5cfbj")
+region = Rect2(200, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s5m4d"]
+atlas = ExtResource("1_5cfbj")
+region = Rect2(300, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7gdem"]
+atlas = ExtResource("1_5cfbj")
+region = Rect2(400, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_llg23"]
+atlas = ExtResource("1_5cfbj")
+region = Rect2(500, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p0rco"]
+atlas = ExtResource("1_5cfbj")
+region = Rect2(600, 0, 100, 100)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a6fh2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tpb1o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_emrvy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s5m4d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7gdem")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_llg23")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p0rco")
+}],
+"loop": true,
+"name": &"fly",
+"speed": 5.0
+}]

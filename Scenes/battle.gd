@@ -10,6 +10,8 @@ const BATTLER_SCENE := preload("res://Scenes/battler.tscn")
 const SPEED_JITTER := 0.35
 const GROUND_Y := 400.0   # raise to move everyone down, lower to move up
 const MIN_GAP := 10.0   
+const SLOT_SPACING := 90.0 #vertical gap
+const STAGGER_X := 40.0 # Sideways offset
 
 
 @onready var menu = $UI/CommandMenu
@@ -37,7 +39,7 @@ func setup(party_stats: Array[CharacterStats], enemy_stats: Array[CharacterStats
 		var b := _spawn(enemy_stats[i], false, Vector2(350, GROUND_Y + i * 90))
 		enemies.append(b)
 	_run_battle()
-	_place_group(party, 900)
+	_place_group(party, 900, true)
 	_place_group(enemies, 350)
 	
 	
@@ -48,16 +50,11 @@ func _spawn(s: CharacterStats, player: bool, pos: Vector2) -> Battler:
 	b.position = pos
 	return b
 	
-func _place_group(group: Array[Battler], x: float) -> void:
-	var total := 0.0
-	for b in group:
-		total += b.get_footprint_height() + MIN_GAP
-	total -= MIN_GAP
-	var y := GROUND_Y - total / 2.0 # center on ground y
-	for b in group:
-		var h := b.get_footprint_height()
-		b.position = Vector2(x, y + h / 2.0)
-		y += h + MIN_GAP
+func _place_group(group: Array[Battler], x: float, toward_left := false) -> void:
+	var top := GROUND_Y - (group.size() - 1) * SLOT_SPACING / 2.0
+	for i in group.size():
+		var sx := STAGGER_X * i * (-1.0 if toward_left else 1.0)
+		group[i].position = Vector2(x + sx, top + i * SLOT_SPACING)
 	
 func _run_battle() -> void:
 	next_order = _roll_order()
@@ -109,6 +106,10 @@ func _enemy_turn(actor: Battler) -> void:
 		await _attack(actor, targets.pick_random())
 	
 func _attack(attacker: Battler, target: Battler) -> void:
+	if attacker.stats.basic_attack != null:
+		await _use_skill(attacker, attacker.stats.basic_attack, [target], true)
+		return
+		
 	var dmg := maxi(attacker.stats.attack - target.stats.defense / 2, 1)
 	dmg = int(dmg * randf_range(0.9, 1.1))
 	var dir := -1 if attacker.is_player else 1   # party steps left, enemies step right
@@ -179,17 +180,60 @@ func _roll_order() -> Array[Battler]:
 	result.sort_custom(func(a, b): return rolls[a] > rolls[b])
 	return result
 	
-func _use_skill(actor: Battler, action: BattleAction, targets: Array) -> void:
-	if not actor.spend_mp(action.mp_cost):
+func _use_skill(actor: Battler, action: BattleAction, targets: Array, free_cost := false) -> void:
+	if not free_cost and not actor.spend_mp(action.mp_cost):
 		return
-	if not actor.is_player:
+	if not actor.is_player and not free_cost:
 		await _callout(actor, action.display_name)
+	
+	var ranged := action.projectile_frames != null or action.projectile_texture != null
 	var dir := -1 if actor.is_player else 1
-	actor.position.x += 30 * dir
-	await actor.play_anim(action.animation, true)
-	for t in targets:
-		if t.is_alive():
-			t.take_damage(action.calc_damage(actor.stats, t.stats))
-	actor.play_anim("idle")
-	actor.position.x -= 30 * dir
-	await get_tree().create_timer(0.6).timeout
+	
+	if ranged:
+		actor.play_anim(action.animation)
+		await get_tree().create_timer(action.release_delay).timeout
+		for t in targets:
+			if t.is_alive():
+				_fly_and_hit(actor, action, t)
+		await get_tree().create_timer(action.projectile_time + 0.35).timeout
+	else:
+		actor.position.x += 30 * dir
+		await actor.play_anim(action.animation, true)
+		for t in targets:
+			if t.is_alive():
+				t.take_damage(action.calc_damage(actor.stats, t.stats))
+		actor.position.x -= 30 * dir 
+		await get_tree().create_timer(0.6).timeout
+	
+	actor.play_anim("defend" if actor.defending else "idle")
+	
+func _fly_and_hit(actor: Battler, action: BattleAction, target: Battler) -> void:
+	var p := _make_projectile(action)
+	add_child(p)
+	var facing := -1.0 if actor.is_player else 1.0
+	var start := actor.global_position + Vector2(actor.stats.muzzle_offset.x * facing, actor.stats.muzzle_offset.y)
+	var end := target.global_position + Vector2(0, -20)
+	p.global_position = start
+	p.rotation = (end - start).angle()
+	var tw := create_tween()
+	tw.tween_property(p, "global_position", end, action.projectile_time)
+	await tw.finished
+	p.queue_free()
+	if target.is_alive():
+		target.take_damage(action.calc_damage(actor.stats, target.stats))
+		
+func _make_projectile(action: BattleAction) -> Node2D:
+	var p: Node2D
+	if action.projectile_frames:
+		var anim := AnimatedSprite2D.new()
+		anim.sprite_frames = action.projectile_frames
+		var names := anim.sprite_frames.get_animation_names()
+		anim.play("fly" if anim.sprite_frames.has_animation("fly") else names[0])
+		p = anim
+	else:
+		var s := Sprite2D.new()
+		s.texture = action.projectile_texture
+		p = s
+	p.scale = Vector2.ONE * action.projectile_scale
+	p.z_index = 50
+	return p

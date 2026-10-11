@@ -2,7 +2,7 @@ class_name BattleAction
 extends Resource
 
 enum TargetType { ONE_ENEMY, ALL_ENEMIES }
-enum DamageType { PHYSICAL, FIRE }
+enum DamageType { PHYSICAL, FIRE, ARCANE }
 
 @export var display_name := "Heavy Strike"
 @export var mp_cost := 4
@@ -10,6 +10,13 @@ enum DamageType { PHYSICAL, FIRE }
 @export var animation := "heavy_attack"
 @export var target_type := TargetType.ONE_ENEMY
 @export var damage_type := DamageType.PHYSICAL
+
+@export_group("Projectile")
+@export var projectile_frames: SpriteFrames
+@export var projectile_texture: Texture2D
+@export var projectile_scale := 1.0
+@export var projectile_time := 0.4
+@export var release_delay := 0.4
 
 func calc_damage(user: CharacterStats, target: CharacterStats) -> int:
 	var dmg: float 

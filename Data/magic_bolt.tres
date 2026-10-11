@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="BattleAction" load_steps=3 format=3 uid="uid://qsb2lald3kmk"]
+
+[ext_resource type="Script" uid="uid://dd50utfwvmokr" path="res://Scripts/battle_action.gd" id="1_117en"]
+[ext_resource type="SpriteFrames" uid="uid://dtgbeecdkuy31" path="res://Data/magic_crystal.tres" id="1_430hs"]
+
+[resource]
+script = ExtResource("1_117en")
+display_name = "Magic Crystal"
+mp_cost = 10
+power = 8.0
+animation = "ice_attack"
+damage_type = 2
+projectile_frames = ExtResource("1_430hs")
+projectile_scale = 4.0
+metadata/_custom_type_script = "uid://dd50utfwvmokr"
