@@ -86,7 +86,8 @@ func _run_battle() -> void:
 
 func _player_turn(actor: Battler) -> void:
 	var living := enemies.filter(func(e): return e.is_alive())
-	menu.open(actor, living)
+	var living_allies := party.filter(func(p): return p.is_alive())
+	menu.open(actor, living, living_allies)
 	var choice = await menu.chosen
 	match choice[0]:
 		"attack": await _attack(actor, choice[1])
@@ -185,6 +186,16 @@ func _use_skill(actor: Battler, action: BattleAction, targets: Array, free_cost 
 		return
 	if not actor.is_player and not free_cost:
 		await _callout(actor, action.display_name)
+		
+	if action.effect_type == BattleAction.EffectType.HEAL:
+		actor.play_anim(action.animation)
+		await get_tree().create_timer(action.release_delay).timeout
+		for t in targets: 
+			if t.is_alive():
+				t.heal(action.calc_heal(actor.stats))
+		await get_tree().create_timer(0.8).timeout
+		actor.play_anim("defend" if actor.defending else "idle")
+		return
 	
 	var ranged := action.projectile_frames != null or action.projectile_texture != null
 	var dir := -1 if actor.is_player else 1

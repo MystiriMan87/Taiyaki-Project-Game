@@ -12,6 +12,8 @@ var cursor: Label
 var mp_label: Label
 var skills_button: Button
 var skill_buttons: Array[Button] = []
+var allies: Array = []
+var target_pool: Array = []
 
 func _ready() -> void:
 	hide()
@@ -31,9 +33,10 @@ func _ready() -> void:
 	cursor.text = "▼"
 	cursor.add_theme_font_size_override("font_size", 32)
 
-func open(a: Battler, living_enemies: Array) -> void:
+func open(a: Battler, living_enemies: Array, living_allies: Array = []) -> void:
 	actor = a
 	targets = living_enemies
+	allies = living_allies
 	targeting = false
 	pending_action = null
 	mp_label.text = "%s   MP %d/%d" % [a.stats.display_name, a.mp, a.stats.max_mp]
@@ -76,14 +79,19 @@ func _on_skills() -> void:
 
 func _on_skill_picked(action: BattleAction) -> void:
 	pending_action = action
-	if action.target_type == BattleAction.TargetType.ALL_ENEMIES:
-		_finish(["skill", action, targets])
-	else:
-		_begin_targeting()
+	match action.target_type:
+		BattleAction.TargetType.ALL_ENEMIES:
+			_finish(["skill", action, targets])
+		BattleAction.TargetType.ALL_ALLIES:
+			_finish(["skill", action, allies])
+		BattleAction.TargetType.ONE_ALLY:
+			_begin_targeting(allies)
+		_:
+			_begin_targeting(targets)
 
 func _on_attack() -> void:
 	pending_action = null
-	_begin_targeting()
+	_begin_targeting(targets)
 
 func _clear_skill_buttons() -> void:
 	for b in skill_buttons:
@@ -92,10 +100,11 @@ func _clear_skill_buttons() -> void:
 
 # --- Targeting ----------------------------------------------------------
 
-func _begin_targeting() -> void:
-	if targets.is_empty():
+func _begin_targeting(pool: Array) -> void:
+	if pool.is_empty():
 		return
-	await get_tree().process_frame   # don't let the same key press confirm the target
+	target_pool = pool
+	await get_tree().process_frame
 	targeting = true
 	target_index = 0
 	hide()
@@ -104,13 +113,13 @@ func _begin_targeting() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if targeting:
 		if event.is_action_pressed("ui_up") or event.is_action_pressed("ui_left"):
-			target_index = wrapi(target_index - 1, 0, targets.size())
+			target_index = wrapi(target_index - 1, 0, target_pool.size())
 			_update_cursor()
 		elif event.is_action_pressed("ui_down") or event.is_action_pressed("ui_right"):
-			target_index = wrapi(target_index + 1, 0, targets.size())
+			target_index = wrapi(target_index + 1, 0, target_pool.size())
 			_update_cursor()
 		elif event.is_action_pressed("ui_accept"):
-			var target = targets[target_index]
+			var target = target_pool[target_index]
 			_clear_cursor()
 			targeting = false
 			if pending_action:
@@ -134,7 +143,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _update_cursor() -> void:
 	_clear_cursor()
-	targets[target_index].add_child(cursor)
+	target_pool[target_index].add_child(cursor)
 	cursor.position = Vector2(-12, -90)
 
 func _clear_cursor() -> void:

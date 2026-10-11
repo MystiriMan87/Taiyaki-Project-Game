@@ -9,6 +9,8 @@ var defending := false
 
 var hp_bar: ProgressBar
 var hp_fill: StyleBoxFlat
+var _bar_tween: Tween
+
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
@@ -133,8 +135,11 @@ func _build_hp_bar() -> void:
 	_recolor_bar()
 
 func _update_hp_bar() -> void:
-	var tw := create_tween()
-	tw.tween_property(hp_bar, "value", hp, 0.25)
+	hp_bar.show()
+	if _bar_tween:
+		_bar_tween.kill()
+	_bar_tween = create_tween()
+	_bar_tween.tween_property(hp_bar, "value", hp, 0.25)
 	_recolor_bar()
 
 func _recolor_bar() -> void:
@@ -145,12 +150,14 @@ func _recolor_bar() -> void:
 		hp_fill.bg_color = Color(0.95, 0.8, 0.2)
 	else:
 		hp_fill.bg_color = Color(0.2, 0.8, 0.3)
+	
 
 # --- Damage numbers -----------------------------------------------------
 
-func _show_damage_number(amount: int) -> void:
+func _show_damage_number(amount: int, color := Color.WHITE) -> void:
 	var label := Label.new()
 	label.text = str(amount)
+	label.add_theme_color_override("font_color", color)
 	label.add_theme_font_size_override("font_size", 28)
 	label.add_theme_color_override("font_outline_color", Color.BLACK)
 	label.add_theme_constant_override("outline_size", 6)
@@ -164,3 +171,15 @@ func _show_damage_number(amount: int) -> void:
 	tw.tween_property(label, "global_position:y", label.global_position.y - 40, 0.7)
 	tw.tween_property(label, "modulate:a", 0.0, 0.4).set_delay(0.3)
 	tw.chain().tween_callback(label.queue_free)
+	
+func heal(amount: int) -> void:
+	if not is_alive():
+		return
+	var gained := mini(amount, stats.max_hp - hp)
+	hp += gained
+	_show_damage_number(gained, Color(0.4, 1.0, 0.5))
+	_update_hp_bar()
+	modulate = Color(0.6, 1.4, 0.7)
+	await get_tree().create_timer(0.3).timeout
+	if is_alive():
+		modulate = Color.WHITE

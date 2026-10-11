@@ -1,8 +1,10 @@
 class_name BattleAction
 extends Resource
 
-enum TargetType { ONE_ENEMY, ALL_ENEMIES }
+enum TargetType { ONE_ENEMY, ALL_ENEMIES, ONE_ALLY, ALL_ALLIES }
 enum DamageType { PHYSICAL, FIRE, ARCANE }
+enum EffectType { DAMAGE, HEAL }
+
 
 @export var display_name := "Heavy Strike"
 @export var mp_cost := 4
@@ -10,6 +12,7 @@ enum DamageType { PHYSICAL, FIRE, ARCANE }
 @export var animation := "heavy_attack"
 @export var target_type := TargetType.ONE_ENEMY
 @export var damage_type := DamageType.PHYSICAL
+@export var effect_type := EffectType.DAMAGE
 
 @export_group("Projectile")
 @export var projectile_frames: SpriteFrames
@@ -25,3 +28,6 @@ func calc_damage(user: CharacterStats, target: CharacterStats) -> int:
 	else:
 		dmg = user.magic * power - target.defense / 2.0
 	return maxi(int(dmg * randf_range(0.9, 1.1)), 1)
+
+func calc_heal(user: CharacterStats) -> int:
+	return maxi(int(user.magic * power * randf_range(0.9, 1.1)), 1)
