@@ -5,7 +5,7 @@ extends Area2D
 @export var extra_pool: Array[CharacterStats] = []
 @export var min_extra := 0
 @export var max_extra := 2
-@export var battle_background: Texture2D
+@export var battle_backgrounds: Array[Texture2D] = []
 
 @export var wander_speed := 40.0
 @export var wander_radius := 120.0
@@ -50,10 +50,18 @@ func _on_body_entered(body: Node) -> void:
 	if triggered or not body.is_in_group("player"):
 		return
 	triggered = true
+	body.stop()
+
 	var group: Array[CharacterStats] = [stats]
 	var valid: Array = extra_pool.filter(func(e): return e != null)
 	if not valid.is_empty():
 		for i in randi_range(min_extra, max_extra):
 			group.append(valid.pick_random())
-	Game.pending_defeated = self 
-	await Game.start_battle(group, battle_background)
+
+	var bg: Texture2D = null
+	var valid_bgs: Array = battle_backgrounds.filter(func(t): return t != null)
+	if not valid_bgs.is_empty():
+		bg = valid_bgs.pick_random()
+
+	Game.pending_defeated = self
+	await Game.start_battle(group, bg)

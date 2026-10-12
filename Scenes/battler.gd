@@ -7,9 +7,12 @@ var mp: int
 var is_player := true
 var defending := false
 
-var hp_bar: ProgressBar
-var hp_fill: StyleBoxFlat
+var hp_bar: StatBar
+#var hp_fill: StyleBoxFlat
 var _bar_tween: Tween
+
+const BAR_SCALE := 2.0
+const BAR_WIDTH := 89.0
 
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
@@ -116,40 +119,43 @@ func take_damage(amount: int) -> void:
 # --- Health bar ---------------------------------------------------------
 
 func _build_hp_bar() -> void:
-	hp_bar = ProgressBar.new()
-	hp_bar.show_percentage = false
-	hp_bar.custom_minimum_size = Vector2(64, 8)
-	hp_bar.max_value = stats.max_hp
-	hp_bar.value = hp
-
-	var bg := StyleBoxFlat.new()
-	bg.bg_color = Color(0.1, 0.1, 0.1, 0.9)
-	hp_fill = StyleBoxFlat.new()
-	hp_bar.add_theme_stylebox_override("background", bg)
-	hp_bar.add_theme_stylebox_override("fill", hp_fill)
-
-	var half_h := get_sprite_height() * 0.5
-	hp_bar.position = Vector2(-32, 80)
-	print(stats.display_name, " bar y=", hp_bar.position.y, " offset=", stats.hp_bar_offset)
+	hp_bar = StatBar.new()
+	hp_bar.setup(stats.max_hp, hp)
+	hp_bar.scale = Vector2(BAR_SCALE, BAR_SCALE)
+	hp_bar.z_index = 10
+	hp_bar.position = Vector2(-BAR_WIDTH * BAR_SCALE / 2.0, stats.hp_bar_offset)
 	add_child(hp_bar)
-	_recolor_bar()
+#func _get_feet_y() -> float:
+	#var frames := sprite.sprite_frames
+	#if frames and frames.has_animation("idle") and frames.get_frame_count("idle") > 0:
+		#var tex := frames.get_frame_texture("idle", 0)
+		#if tex:
+			#return tex.get_height() * absf(sprite.scale.y) * 0.5
+	#return 40.0
+
+	#var bg := StyleBoxFlat.new()
+	#bg.bg_color = Color(0.1, 0.1, 0.1, 0.9)
+	#hp_fill = StyleBoxFlat.new()
+	#hp_bar.add_theme_stylebox_override("background", bg)
+	#hp_bar.add_theme_stylebox_override("fill", hp_fill)
+
+	#var half_h := get_sprite_height() * 0.5
+	#hp_bar.position = Vector2(-32, 80)
+	#print(stats.display_name, " bar y=", hp_bar.position.y, " offset=", stats.hp_bar_offset)
+	#add_child(hp_bar)
+	#_recolor_bar()
 
 func _update_hp_bar() -> void:
-	hp_bar.show()
-	if _bar_tween:
-		_bar_tween.kill()
-	_bar_tween = create_tween()
-	_bar_tween.tween_property(hp_bar, "value", hp, 0.25)
-	_recolor_bar()
+	hp_bar.set_stat(hp)
 
-func _recolor_bar() -> void:
-	var ratio := float(hp) / stats.max_hp
-	if ratio <= 0.25:
-		hp_fill.bg_color = Color(0.9, 0.2, 0.2)
-	elif ratio <= 0.5:
-		hp_fill.bg_color = Color(0.95, 0.8, 0.2)
-	else:
-		hp_fill.bg_color = Color(0.2, 0.8, 0.3)
+#func _recolor_bar() -> void:
+	#var ratio := float(hp) / stats.max_hp
+	#if ratio <= 0.25:
+		#hp_fill.bg_color = Color(0.9, 0.2, 0.2)
+	#elif ratio <= 0.5:
+		#hp_fill.bg_color = Color(0.95, 0.8, 0.2)
+	#else:
+		#hp_fill.bg_color = Color(0.2, 0.8, 0.3)
 	
 
 # --- Damage numbers -----------------------------------------------------

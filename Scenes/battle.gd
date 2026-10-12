@@ -10,7 +10,7 @@ const BATTLER_SCENE := preload("res://Scenes/battler.tscn")
 const SPEED_JITTER := 0.35
 const GROUND_Y := 400.0   # raise to move everyone down, lower to move up
 const MIN_GAP := 10.0   
-const SLOT_SPACING := 90.0 #vertical gap
+const SLOT_SPACING := 130.0 #vertical gap
 const STAGGER_X := 40.0 # Sideways offset
 
 

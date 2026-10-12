@@ -4,7 +4,7 @@
 [ext_resource type="SpriteFrames" uid="uid://bivbdm7gdstrg" path="res://Data/slime_frames.tres" id="2_vehws"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_734nh"]
-radius = 57.14018
+radius = 16.03122
 
 [node name="OverworldEnemy" type="Area2D"]
 script = ExtResource("1_11jdx")

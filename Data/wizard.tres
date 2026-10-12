@@ -16,6 +16,7 @@ defense = 3
 speed = 9
 sprite_frames = ExtResource("5_h5h7v")
 battle_scale = 4.5
+hp_bar_offset = 45.0
 max_mp = 40
 magic = 10
 actions = Array[ExtResource("1_48nol")]([ExtResource("2_7o0da"), ExtResource("3_h5h7v")])
