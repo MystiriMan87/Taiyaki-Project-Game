@@ -1,6 +1,8 @@
 extends CharacterBody2D
 
 const SPEED := 180.0
+const MAX_TRAIL := 120
+var trail: Array[Vector2] = []
 
 @export var art_faces_right := true   # side-view fallback
 
@@ -9,12 +11,19 @@ var facing := "down"
 
 func _ready() -> void:
 	add_to_group("player")
+	for i in MAX_TRAIL:
+		trail.append(global_position)
 
 func _physics_process(_delta: float) -> void:
 	var dir := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	velocity = dir * SPEED
 	move_and_slide()
 	_update_animation(dir)
+	
+	if global_position.distance_to(trail.back()) > 1.0:
+		trail.append(global_position)
+		if trail.size() > MAX_TRAIL:
+			trail.pop_front()
 
 func _update_animation(dir: Vector2) -> void:
 	if dir != Vector2.ZERO:

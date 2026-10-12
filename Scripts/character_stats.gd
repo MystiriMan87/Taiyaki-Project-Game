@@ -18,3 +18,5 @@ extends Resource
 @export var footprint_height := 0.0   # 0 = measure automatically, otherwise use this many pixels
 @export var basic_attack: BattleAction
 @export var muzzle_offset := Vector2(40, -20) # where projectiles spawn, relative to the character, in the direction they face
+@export var overworld_frames: SpriteFrames # walk/idle animations
+@export var overworld_scale := 1.0
