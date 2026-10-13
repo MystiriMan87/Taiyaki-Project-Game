@@ -128,25 +128,45 @@ func _party_dead() -> bool:
 	return party.all(func(p): return not p.is_alive())
 	
 func _end_battle(won: bool) -> void:
+	var details: Array[String] = []
 	if won:
+		var total_xp := 0
+		for e in enemies:
+			total_xp += e.stats.xp_reward
+		# save HP/MP first (level-ups add to the saved values)
 		for p in party:
 			Game.party_hp[p.stats] = maxi(p.hp, 1)
 			Game.party_mp[p.stats] = p.mp
-			
-	var banner := Label.new()
-	banner.text = "Victory!" if won else "Defeat.."
-	banner.add_theme_font_size_override("font_size", 72)
-	banner.add_theme_color_override("font_outline_color", Color.BLACK)
-	banner.add_theme_constant_override("outline_size", 12)
-	banner.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	banner.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	banner.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	banner.modulate.a = 0.0
-	$UI.add_child(banner)
-	
-	create_tween().tween_property(banner, "modulate:a", 1.0, 0.4)
-	await get_tree().create_timer(1.8).timeout
+		details.append("+%d XP" % total_xp)
+		for p in party:
+			if not p.is_alive():
+				continue          # knocked-out members earn no XP
+			var g: Dictionary = Game.award_xp(p.stats, total_xp)
+			if g["levels"] > 0:
+				details.append("%s reached Lv %d!   HP +%d  MP +%d  ATK +%d  DEF +%d  MAG +%d" % [
+					p.stats.display_name, Game.get_level(p.stats),
+					g["hp"], g["mp"], g["attack"], g["defense"], g["magic"]])
+
+	var box := VBoxContainer.new()
+	box.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	box.alignment = BoxContainer.ALIGNMENT_CENTER
+	box.modulate.a = 0.0
+	box.add_child(_result_label("Victory!" if won else "Defeat...", 72))
+	for line in details:
+		box.add_child(_result_label(line, 28))
+	if won:
+		box.add_child(_result_label("Press Enter", 20))
+	$UI.add_child(box)
+
+	create_tween().tween_property(box, "modulate:a", 1.0, 0.4)
+	if won:
+		await get_tree().create_timer(0.8).timeout
+		while not Input.is_action_just_pressed("ui_accept"):
+			await get_tree().process_frame
+	else:
+		await get_tree().create_timer(1.8).timeout
 	finished.emit(won)
+
 	
 func _callout(actor: Battler, text: String) -> void:
 	var label := Label.new()
@@ -252,3 +272,12 @@ func _make_projectile(action: BattleAction) -> Node2D:
 func set_background(tex: Texture2D) -> void:
 	if tex:
 		$Background.texture = tex
+		
+func _result_label(text: String, size: int) -> Label:
+	var l := Label.new()
+	l.text = text
+	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	l.add_theme_font_size_override("font_size", size)
+	l.add_theme_color_override("font_outline_color", Color.BLACK)
+	l.add_theme_constant_override("outline_size", 10)
+	return l

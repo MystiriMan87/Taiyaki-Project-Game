@@ -28,6 +28,13 @@ func _ready() -> void:
 		sprite.play("idle")
 	body_entered.connect(_on_body_entered)
 	
+	if wander_speed >= 1.0 and stats.sprite_frames:
+		sprite.sprite_frames = stats.sprite_frames
+		sprite.play("walk")
+	else:
+		sprite.play("idle")
+		
+	
 func _physics_process(delta: float) -> void:
 	if triggered:
 		return

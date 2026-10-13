@@ -39,7 +39,7 @@ func open(a: Battler, living_enemies: Array, living_allies: Array = []) -> void:
 	allies = living_allies
 	targeting = false
 	pending_action = null
-	mp_label.text = "%s   MP %d/%d" % [a.stats.display_name, a.mp, a.stats.max_mp]
+	mp_label.text = "%s  Lv %d   MP %d/%d" % [a.stats.display_name, Game.get_level(a.stats), a.mp, a.stats.max_mp]
 	skills_button.disabled = a.stats.actions.is_empty()
 	_show_main()
 	show()

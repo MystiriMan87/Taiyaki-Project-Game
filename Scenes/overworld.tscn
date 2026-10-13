@@ -30,3 +30,11 @@ stats = ExtResource("4_hf0oe")
 extra_pool = Array[ExtResource("3_rmeny")]([ExtResource("5_2ngsa")])
 battle_backgrounds = Array[Texture2D]([ExtResource("8_auytq"), ExtResource("9_auytq")])
 chase_range = 150.0
+
+[node name="OverworldEnemy2" parent="." instance=ExtResource("4_2ngsa")]
+position = Vector2(-371, 348)
+scale = Vector2(4, 4)
+stats = ExtResource("5_2ngsa")
+extra_pool = Array[ExtResource("3_rmeny")]([ExtResource("4_hf0oe")])
+battle_backgrounds = Array[Texture2D]([ExtResource("8_auytq"), ExtResource("9_auytq")])
+chase_range = 150.0

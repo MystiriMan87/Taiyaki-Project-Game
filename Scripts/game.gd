@@ -14,6 +14,10 @@ var _fx_layer: CanvasLayer
 var _fx_rect: ColorRect
 var _swirl_mat: ShaderMaterial
 
+const MAX_LEVEL := 50
+var party_level: Dictionary = {}
+var party_xp: Dictionary = {}
+
 func _ready() -> void:
 	_fx_layer = CanvasLayer.new()
 	_fx_layer.layer = 100
@@ -82,3 +86,34 @@ func _transition(from: float, to: float, duration: float) -> void:
 	await tw.finished
 	if to <= 0.0:
 		_fx_rect.visible = false
+		
+func get_level(s: CharacterStats) -> int:
+	return party_level.get(s, 1)
+
+func xp_to_next(level: int) -> int:
+	return int(25 * pow(level, 1.6))  # Lv1->2: 25, Lv2->3: 75, Lv3->4: 139...
+	
+func award_xp(s: CharacterStats, amount: int) -> Dictionary:
+	var lvl: int = get_level(s)
+	var xp: int = party_xp.get(s, 0) + amount
+	var gain := {"levels": 0, "hp": 0, "mp": 0, "attack": 0, "defense": 0, "magic": 0}
+	while lvl < MAX_LEVEL and xp >= xp_to_next(lvl):
+		xp -= xp_to_next(lvl)
+		lvl += 1
+		gain["levels"] += 1
+		gain["hp"] += s.hp_growth
+		gain["mp"] += s.mp_growth
+		gain["attack"] += s.attack_growth
+		gain["defense"] += s.defense_growth
+		gain["magic"] += s.magic_growth
+		s.max_hp += s.hp_growth
+		s.max_mp += s.mp_growth
+		s.attack += s.attack_growth
+		s.defense += s.defense_growth
+		s.magic += s.magic_growth
+	party_level[s] = lvl
+	party_xp[s] = xp
+	if gain["levels"] > 0:
+		party_hp[s] = mini(party_hp.get(s, s.max_hp) + gain["hp"], s.max_hp)
+		party_mp[s] = mini(party_mp.get(s, s.max_mp) + gain["mp"], s.max_mp)
+	return gain
