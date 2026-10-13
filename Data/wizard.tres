@@ -1,12 +1,15 @@
-[gd_resource type="Resource" script_class="CharacterStats" load_steps=8 format=3 uid="uid://dsool7dj6ttbr"]
+[gd_resource type="Resource" script_class="CharacterStats" load_steps=11 format=3 uid="uid://dsool7dj6ttbr"]
 
 [ext_resource type="Script" uid="uid://dd50utfwvmokr" path="res://Scripts/battle_action.gd" id="1_48nol"]
 [ext_resource type="Script" uid="uid://dqvwo37xxrj4g" path="res://Scripts/character_stats.gd" id="2_1xj8i"]
 [ext_resource type="Resource" uid="uid://qsb2lald3kmk" path="res://Data/magic_bolt.tres" id="2_7o0da"]
 [ext_resource type="Resource" uid="uid://b0yl1bwi3k5th" path="res://Data/heal.tres" id="3_h5h7v"]
 [ext_resource type="Resource" uid="uid://df664pd2hfleq" path="res://Data/fireball.tres" id="3_j11ef"]
+[ext_resource type="Resource" uid="uid://b2qtdxb5m6ibp" path="res://Data/quicken.tres" id="4_8p8pm"]
 [ext_resource type="SpriteFrames" uid="uid://bb83kn5tjde6l" path="res://Data/wizard_overworld_frames.tres" id="5_8p8pm"]
+[ext_resource type="Resource" uid="uid://b6t6vs5s3n576" path="res://Data/haste.tres" id="5_8sk87"]
 [ext_resource type="SpriteFrames" uid="uid://cj63qldbskwn8" path="res://Data/wizard_frames.tres" id="5_h5h7v"]
+[ext_resource type="Resource" uid="uid://djwgy88htlbcy" path="res://Data/slow.tres" id="6_d1n6e"]
 
 [resource]
 script = ExtResource("2_1xj8i")
@@ -20,7 +23,7 @@ battle_scale = 4.5
 hp_bar_offset = 45.0
 max_mp = 40
 magic = 10
-actions = Array[ExtResource("1_48nol")]([ExtResource("2_7o0da"), ExtResource("3_h5h7v")])
+actions = Array[ExtResource("1_48nol")]([ExtResource("2_7o0da"), ExtResource("3_h5h7v"), ExtResource("4_8p8pm"), ExtResource("5_8sk87"), ExtResource("6_d1n6e")])
 basic_attack = ExtResource("3_j11ef")
 overworld_frames = ExtResource("5_8p8pm")
 hp_growth = 8

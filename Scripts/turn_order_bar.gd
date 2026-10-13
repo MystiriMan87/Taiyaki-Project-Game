@@ -53,6 +53,20 @@ func refresh(act: Battler = null) -> void:
 	for g in ghosts:
 		g["slot"].visible = g["b"].is_alive()
 		
+func pulse(b: Battler) -> void:
+	await get_tree().process_frame
+	var found: Array = []
+	if slots.has(b):
+		found.append(slots[b])
+	for g in ghosts:
+		if g["b"] == b:
+			found.append(g["slot"])
+	for s in found:
+		s.pivot_offset = s.size / 2.0
+		var tw := create_tween()
+		tw.tween_property(s, "scale", Vector2(1.25, 1.25), 0.12)
+		tw.tween_property(s, "scale", Vector2.ONE, 0.18)
+		
 func _make_slot(b: Battler) -> Control:
 	var root := VBoxContainer.new()
 	root.add_theme_constant_override("separation", 2)
@@ -92,6 +106,7 @@ func _make_slot(b: Battler) -> Control:
 	name_label.add_theme_color_override("font_outline_color", Color.BLACK)
 	name_label.add_theme_constant_override("outline_size", 4)
 	root.add_child(name_label)
+	
 	
 	return root
 	

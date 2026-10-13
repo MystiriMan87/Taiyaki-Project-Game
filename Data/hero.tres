@@ -1,10 +1,11 @@
-[gd_resource type="Resource" script_class="CharacterStats" load_steps=6 format=3 uid="uid://dwps28ofardn4"]
+[gd_resource type="Resource" script_class="CharacterStats" load_steps=7 format=3 uid="uid://dwps28ofardn4"]
 
 [ext_resource type="Script" uid="uid://dqvwo37xxrj4g" path="res://Scripts/character_stats.gd" id="1_8k3yn"]
 [ext_resource type="Script" uid="uid://dd50utfwvmokr" path="res://Scripts/battle_action.gd" id="1_tpuqn"]
 [ext_resource type="Resource" uid="uid://cg2djgn0vbio5" path="res://Data/fire_slash.tres" id="2_gt8d5"]
 [ext_resource type="SpriteFrames" uid="uid://hx3pvfs71chb" path="res://Data/hero_frames.tres" id="2_sfurx"]
 [ext_resource type="Resource" uid="uid://do2actj0irwv7" path="res://Data/heavy_strike.tres" id="3_xt4pn"]
+[ext_resource type="Resource" uid="uid://c3ysaswdjrs3o" path="res://Data/stagger.tres" id="4_xt4pn"]
 
 [resource]
 script = ExtResource("1_8k3yn")
@@ -12,7 +13,7 @@ speed = 12
 sprite_frames = ExtResource("2_sfurx")
 battle_scale = 4.5
 hp_bar_offset = 45.0
-actions = Array[ExtResource("1_tpuqn")]([ExtResource("2_gt8d5"), ExtResource("3_xt4pn")])
+actions = Array[ExtResource("1_tpuqn")]([ExtResource("2_gt8d5"), ExtResource("3_xt4pn"), ExtResource("4_xt4pn")])
 footprint_height = 90.0
 hp_growth = 14
 mp_growth = 2

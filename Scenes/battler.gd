@@ -7,6 +7,10 @@ var mp: int
 var is_player := true
 var defending := false
 
+var speed_mod := 1.0
+var speed_turns := 0
+var jitter := 1.0
+
 var hp_bar: StatBar
 #var hp_fill: StyleBoxFlat
 var _bar_tween: Tween

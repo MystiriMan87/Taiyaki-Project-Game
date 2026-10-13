@@ -20,6 +20,8 @@ var party: Array[Battler] = []
 var enemies: Array[Battler] = []
 var turn_bar: TurnOrderBar
 var next_order: Array[Battler] = []
+var order: Array[Battler] = []
+var turn_index := 0
 
 
 func _ready() -> void:
@@ -57,32 +59,80 @@ func _place_group(group: Array[Battler], x: float, toward_left := false) -> void
 		group[i].position = Vector2(x + sx, top + i * SLOT_SPACING)
 	
 func _run_battle() -> void:
+	await get_tree().create_timer(0.6).timeout
 	next_order = _roll_order()
 	while true:
-		var order: Array[Battler] = []
+		_tick_statuses()
+		order = []
 		for b in next_order:
 			if b.is_alive():
 				order.append(b)
 		next_order = _roll_order()
 		turn_order_changed.emit(order, next_order)
-
-		for b in order:
-			if not b.is_alive():
-				print("ORDER SLOT: ", b.stats.display_name, " player=", b.is_player, " alive=", b.is_alive())
-				continue
-			turn_started.emit(b)
-			b.set_defending(false)
-			if b.is_player:
-				await _player_turn(b)
-			else:
-				await _enemy_turn(b)
-			turn_bar.refresh()
-			if _enemies_dead():
-				await _end_battle(true)
-				return
-			if _party_dead():
-				await _end_battle(false)
-				return
+		
+		turn_index = 0
+		while turn_index < order.size():
+			var b: Battler = order[turn_index]
+			if b.is_alive():
+				turn_started.emit(b)
+				b.set_defending(false)
+				if b.is_player:
+					await _player_turn(b)
+				else:
+					await _enemy_turn(b)
+				turn_bar.refresh()
+				if _enemies_dead():
+					await _end_battle(true)
+					return
+				if _party_dead():
+					await _end_battle(false)
+					return
+			turn_index += 1
+			
+func _tick_statuses() -> void:
+	for b in party + enemies:
+		if b.speed_turns > 0:
+			b.speed_turns -= 1
+			if b.speed_turns == 0:
+				b.speed_mod = 1.0
+				
+# slots > 0 = later, slots < 0 = earlier
+func _shift_turn(target: Battler, slots: int) -> void:
+	var i := order.find(target)
+	if i > turn_index:
+		var j := clampi(i + slots, turn_index + 1, order.size() - 1)
+		order.remove_at(i)
+		order.insert(j, target)
+	else:
+		var k := next_order.find(target)
+		if k == -1:
+			return
+		var j2 := clampi(k + slots, 0, next_order.size() - 1)
+		next_order.remove_at(k)
+		next_order.insert(j2, target)
+	_announce_order(target)
+	
+func _announce_order(moved: Battler = null) -> void:
+	turn_order_changed.emit(order, next_order)
+	if turn_index < order.size():
+		turn_bar.refresh(order[turn_index])
+	if moved:
+		turn_bar.pulse(moved)
+		
+func _apply_turn_effect(action: BattleAction, t: Battler) -> void:
+	match action.turn_effect:
+		BattleAction.TurnEffect.DELAY:
+			_callout(t, "Delayed!")
+			_shift_turn(t, action.turn_shift)
+		BattleAction.TurnEffect.RUSH:
+			_callout(t, "Quickened!")
+			_shift_turn(t, -99)
+		BattleAction.TurnEffect.SPEED:
+			t.speed_mod = action.speed_factor
+			t.speed_turns = action.status_turns
+			next_order = _roll_order(false)
+			_callout(t, "Haste!" if action.speed_factor > 1.0 else "Slow...")
+			_announce_order(t)
 
 func _player_turn(actor: Battler) -> void:
 	var living := enemies.filter(func(e): return e.is_alive())
@@ -191,15 +241,16 @@ func _callout(actor: Battler, text: String) -> void:
 	await tw.finished
 	label.queue_free()
 	
-func _roll_order() -> Array[Battler]:
-	var rolls := {}
+func _roll_order(reroll := true) -> Array[Battler]:
 	var result: Array[Battler] = []
 	for b in party + enemies:
 		if b.is_alive():
-			rolls[b] = b.stats.speed * randf_range(1.0 - SPEED_JITTER, 1.0 + SPEED_JITTER)
+			if reroll:
+				b.jitter = randf_range(1.0 - SPEED_JITTER, 1.0 + SPEED_JITTER)
 			result.append(b)
-	result.sort_custom(func(a, b): return rolls[a] > rolls[b])
+	result.sort_custom(func(x, y): return x.stats.speed * x.speed_mod * x.jitter > y.stats.speed * y.speed_mod * y.jitter)
 	return result
+	
 	
 func _use_skill(actor: Battler, action: BattleAction, targets: Array, free_cost := false) -> void:
 	if not free_cost and not actor.spend_mp(action.mp_cost):
@@ -216,7 +267,16 @@ func _use_skill(actor: Battler, action: BattleAction, targets: Array, free_cost 
 		await get_tree().create_timer(0.8).timeout
 		actor.play_anim("defend" if actor.defending else "idle")
 		return
-	
+	if action.effect_type == BattleAction.EffectType.TURN_ONLY:
+		actor.play_anim(action.animation)
+		await get_tree().create_timer(action.release_delay).timeout
+		for t in targets:
+			if t.is_alive():
+				_apply_turn_effect(action, t)
+		await get_tree().create_timer(0.9).timeout
+		actor.play_anim("defend" if actor.defending else "idle")
+		return
+			
 	var ranged := action.projectile_frames != null or action.projectile_texture != null
 	var dir := -1 if actor.is_player else 1
 	
@@ -236,7 +296,12 @@ func _use_skill(actor: Battler, action: BattleAction, targets: Array, free_cost 
 		actor.position.x -= 30 * dir 
 		await get_tree().create_timer(0.6).timeout
 	
+	for t in targets:
+		if t.is_alive():
+			_apply_turn_effect(action, t)
+	
 	actor.play_anim("defend" if actor.defending else "idle")
+	
 	
 func _fly_and_hit(actor: Battler, action: BattleAction, target: Battler) -> void:
 	var p := _make_projectile(action)

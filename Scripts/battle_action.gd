@@ -3,8 +3,14 @@ extends Resource
 
 enum TargetType { ONE_ENEMY, ALL_ENEMIES, ONE_ALLY, ALL_ALLIES }
 enum DamageType { PHYSICAL, FIRE, ARCANE }
-enum EffectType { DAMAGE, HEAL }
+enum EffectType { DAMAGE, HEAL, TURN_ONLY }
+enum TurnEffect { NONE, DELAY, RUSH, SPEED }
 
+@export_group("Turn order")
+@export var turn_effect := TurnEffect.NONE
+@export var turn_shift := 2 # Delay
+@export var speed_factor := 1.5 #speed above 1 haste, below 1 slow
+@export var status_turns := 3 # how many rounds it lasts
 
 @export var display_name := "Heavy Strike"
 @export var mp_cost := 4

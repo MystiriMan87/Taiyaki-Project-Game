@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="BattleAction" load_steps=2 format=3 uid="uid://c3ysaswdjrs3o"]
+
+[ext_resource type="Script" uid="uid://dd50utfwvmokr" path="res://Scripts/battle_action.gd" id="1_l683b"]
+
+[resource]
+script = ExtResource("1_l683b")
+turn_effect = 1
+display_name = "Hero Stagger"
+power = 0.8
+metadata/_custom_type_script = "uid://dd50utfwvmokr"
