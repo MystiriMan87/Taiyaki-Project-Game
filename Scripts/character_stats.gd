@@ -28,3 +28,7 @@ extends Resource
 @export var attack_growth := 2
 @export var defense_growth := 1
 @export var magic_growth := 2
+@export_group("Recruiting")
+@export var recruitable := false
+@export_range(0.0, 1.0) var recruit_chance := 0.25
+@export_multiline var recruit_line := "You fight well. I want to join"

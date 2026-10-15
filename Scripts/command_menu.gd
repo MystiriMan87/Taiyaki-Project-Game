@@ -15,6 +15,9 @@ var skill_buttons: Array[Button] = []
 var allies: Array = []
 var target_pool: Array = []
 
+const SKILL_COLUMNS := 2
+var skill_grid: GridContainer
+
 func _ready() -> void:
 	hide()
 	mp_label = Label.new()
@@ -60,21 +63,33 @@ func _on_skills() -> void:
 	$AttackButton.hide()
 	skills_button.hide()
 	$DefendButton.hide()
+	
+	skill_grid = GridContainer.new()
+	skill_grid.columns = SKILL_COLUMNS
+	skill_grid.add_theme_constant_override("h_separation", 8)
+	skill_grid.add_theme_constant_override("v_separation", 6)
+	skill_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	add_child(skill_grid)
+	
 	var first_enabled: Button = null
 	for action in actor.stats.actions:
+		if action == null:
+			continue
 		var b := Button.new()
-		b.text = "%s  (%d MP)" % [action.display_name, action.mp_cost]
+		b.text = "%s (%d MP)" % [action.display_name, action.mp_cost]
+		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		b.disabled = actor.mp < action.mp_cost
 		b.pressed.connect(_on_skill_picked.bind(action))
-		add_child(b)
-		skill_buttons.append(b)
+		skill_grid.add_child(b)
 		if first_enabled == null and not b.disabled:
 			first_enabled = b
+			
 	var back := Button.new()
 	back.text = "Back"
+	back.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	back.pressed.connect(_show_main)
-	add_child(back)
-	skill_buttons.append(back)
+	skill_grid.add_child(back)
+	
 	(first_enabled if first_enabled else back).grab_focus()
 
 func _on_skill_picked(action: BattleAction) -> void:
@@ -94,8 +109,9 @@ func _on_attack() -> void:
 	_begin_targeting(targets)
 
 func _clear_skill_buttons() -> void:
-	for b in skill_buttons:
-		b.queue_free()
+	if skill_grid:
+		skill_grid.queue_free()
+		skill_grid = null
 	skill_buttons.clear()
 
 # --- Targeting ----------------------------------------------------------

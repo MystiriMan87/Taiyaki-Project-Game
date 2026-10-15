@@ -4,6 +4,9 @@ signal finished(won: bool)
 #signal turn_order_changed(order: Array)
 signal turn_started(battler: Battler)
 signal turn_order_changed(order: Array, next_order: Array)
+signal _recruit_decided(accepted: bool)
+signal _confirm_pressed
+
 
 
 const BATTLER_SCENE := preload("res://Scenes/battler.tscn")
@@ -12,6 +15,7 @@ const GROUND_Y := 400.0   # raise to move everyone down, lower to move up
 const MIN_GAP := 10.0   
 const SLOT_SPACING := 130.0 #vertical gap
 const STAGGER_X := 40.0 # Sideways offset
+const DEPTH_SCALE := 0.0012 # extra scale per pixel of y below GROUND_Y
 
 
 @onready var menu = $UI/CommandMenu
@@ -44,6 +48,19 @@ func setup(party_stats: Array[CharacterStats], enemy_stats: Array[CharacterStats
 	_place_group(party, 900, true)
 	_place_group(enemies, 350)
 	
+func _process(_delta: float) -> void:
+	var t := Time.get_ticks_msec() / 1000.0
+	$Camera2D.position = Vector2(640 + sin(t * 0.4) * 12.0, 360 + cos(t * 0.3) * 4.0)
+	#$Background.scale *= 1.06
+	for b in party + enemies:
+		b.position.x += sin(t * 0.4) * 0.04
+	
+func _punch_camera(amount := 1.06, time := 0.18) -> void:
+	var cam: Camera2D = $Camera2D
+	var tw := create_tween()
+	tw.tween_property(cam, "zoom", Vector2(amount, amount), time * 0.5)
+	tw.tween_property(cam, "zoom", Vector2.ONE, time)
+	
 	
 func _spawn(s: CharacterStats, player: bool, pos: Vector2) -> Battler:
 	var b: Battler = BATTLER_SCENE.instantiate()
@@ -52,11 +69,19 @@ func _spawn(s: CharacterStats, player: bool, pos: Vector2) -> Battler:
 	b.position = pos
 	return b
 	
+func _apply_depth(b: Battler) -> void:
+	var s := 1.0 + (b.position.y - GROUND_Y) * DEPTH_SCALE
+	b.sprite.scale = Vector2.ONE * b.stats.battle_scale * s
+
+
 func _place_group(group: Array[Battler], x: float, toward_left := false) -> void:
 	var top := GROUND_Y - (group.size() - 1) * SLOT_SPACING / 2.0
 	for i in group.size():
 		var sx := STAGGER_X * i * (-1.0 if toward_left else 1.0)
 		group[i].position = Vector2(x + sx, top + i * SLOT_SPACING)
+	
+	for b in group:
+		_apply_depth(b)
 	
 func _run_battle() -> void:
 	await get_tree().create_timer(0.6).timeout
@@ -111,6 +136,11 @@ func _shift_turn(target: Battler, slots: int) -> void:
 		next_order.remove_at(k)
 		next_order.insert(j2, target)
 	_announce_order(target)
+	
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_accept"):
+		_confirm_pressed.emit()
 	
 func _announce_order(moved: Battler = null) -> void:
 	turn_order_changed.emit(order, next_order)
@@ -192,6 +222,10 @@ func _end_battle(won: bool) -> void:
 			if not p.is_alive():
 				continue          # knocked-out members earn no XP
 			var g: Dictionary = Game.award_xp(p.stats, total_xp)
+			var lvl: int = Game.get_level(p.stats)
+			details.append("%s  Lv %d   (%d / %d XP)" % [
+				p.stats.display_name, lvl,
+				Game.party_xp.get(p.stats, 0), Game.xp_to_next(lvl)])
 			if g["levels"] > 0:
 				details.append("%s reached Lv %d!   HP +%d  MP +%d  ATK +%d  DEF +%d  MAG +%d" % [
 					p.stats.display_name, Game.get_level(p.stats),
@@ -209,10 +243,26 @@ func _end_battle(won: bool) -> void:
 	$UI.add_child(box)
 
 	create_tween().tween_property(box, "modulate:a", 1.0, 0.4)
+
 	if won:
 		await get_tree().create_timer(0.8).timeout
-		while not Input.is_action_just_pressed("ui_accept"):
+		await _confirm_pressed
+		box.hide()
+		await get_tree().create_timer(0.25).timeout
+		await _try_recruit()
+	else:
+		await get_tree().create_timer(1.8).timeout
+
+	finished.emit(won)
+
+	create_tween().tween_property(box, "modulate:a", 1.0, 0.4)
+	if won:
+		await get_tree().create_timer(0.8).timeout
+		while not Input.is_action_just_pressed("ui_accepted"):
 			await get_tree().process_frame
+		box.hide()
+		await get_tree().create_timer(0.25).timeout # so it doesnt gain sentience
+		await _try_recruit()
 	else:
 		await get_tree().create_timer(1.8).timeout
 	finished.emit(won)
@@ -335,8 +385,15 @@ func _make_projectile(action: BattleAction) -> Node2D:
 	return p
 	
 func set_background(tex: Texture2D) -> void:
-	if tex:
-		$Background.texture = tex
+	var bg := get_node_or_null("Background")
+	if bg == null or tex == null:
+		return
+	bg.texture = tex
+	bg.position = Vector2(640, 360)
+	bg.z_index = -10
+	var size := tex.get_size()
+	var s := maxf(1280.0 / size.x, 720.0 / size.y) * 1.06   # cover the screen plus a 6% margin for the drift
+	bg.scale = Vector2(s, s)
 		
 func _result_label(text: String, size: int) -> Label:
 	var l := Label.new()
@@ -346,3 +403,95 @@ func _result_label(text: String, size: int) -> Label:
 	l.add_theme_color_override("font_outline_color", Color.BLACK)
 	l.add_theme_constant_override("outline_size", 10)
 	return l
+	
+func _try_recruit() -> void:
+	if Game.party.size() >= Game.MAX_PARTY:
+		return
+	var candidates: Array[Battler] = []
+	for e in enemies:
+		var s: CharacterStats = e.stats
+		if s.recruitable and not Game.has_member(s.display_name) and randf() < s.recruit_chance:
+			candidates.append(e)
+	if candidates.is_empty():
+		return
+	var chosen: Battler = candidates.pick_random()
+	var accepted: bool = await _recruit_dialog(chosen.stats, chosen.get_icon())
+	if accepted:
+		Game.recruit(chosen.stats)
+		var msg := _result_label("%s joined the party!" % chosen.stats.display_name, 40)
+		msg.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
+		$UI.add_child(msg)
+		await get_tree().create_timer(1.6).timeout
+		msg.queue_free()
+		
+func _recruit_dialog(s: CharacterStats, icon_tex: Texture2D) -> bool:
+	var panel := PanelContainer.new()
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0.1, 0.13, 0.2, 0.96)
+	style.set_border_width_all(3)
+	style.set_corner_radius_all(8)
+	style.set_content_margin_all(16)
+	panel.add_theme_stylebox_override("panel", style)
+	panel.custom_minimum_size = Vector2(680, 0)
+	panel.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM, Control.PRESET_MODE_MINSIZE, 40)
+	panel.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	panel.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 16)
+	panel.add_child(row)
+	
+	var icon := TextureRect.new()
+	icon.texture = icon_tex
+	icon.custom_minimum_size = Vector2(96, 96)
+	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icon.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	row.add_child(icon)
+	
+	var col := VBoxContainer.new()
+	col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(col)
+	
+	var name_label := Label.new()
+	name_label.text = s.display_name
+	name_label.add_theme_font_size_override("font_size", 24)
+	name_label.add_theme_color_override("font_color", Color(1, 0.9, 0.5))
+	col.add_child(name_label)
+	
+	var line := Label.new()
+	line.text = s.recruit_line
+	line.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	line.custom_minimum_size = Vector2(480, 0)
+	line.add_theme_font_size_override("font_size", 20)
+	line.visible_ratio = 0.0
+	col.add_child(line)
+	
+	var buttons := HBoxContainer.new()
+	buttons.add_theme_constant_override("separation", 12)
+	buttons.modulate.a = 0.0
+	col.add_child(buttons)
+	var yes := Button.new()
+	yes.text = "Welcome aboard"
+	yes.pressed.connect(func(): _recruit_decided.emit(true))
+	buttons.add_child(yes)
+	var no := Button.new()
+	no.text = "Not now"
+	no.pressed.connect(func(): _recruit_decided.emit(false))
+	buttons.add_child(no)
+	
+	$UI.add_child(panel)
+	
+	#typewriter effect slaps
+	var tw := create_tween()
+	tw.tween_property(line, "visible_ratio", 1.0, maxf(s.recruit_line.length() * 0.03, 0.3))
+	await tw.finished
+	buttons.modulate.a = 1.0
+	yes.grab_focus()
+	
+	var accepted: bool = await _recruit_decided
+	panel.queue_free()
+	return accepted 
+	
+	
+	

@@ -26,3 +26,9 @@ func _spawn_followers() -> void:
 		var f := PartyFollower.new()
 		add_child(f)
 		f.setup(Game.party[i], player_node, i)
+		
+func refresh_followers() -> void:
+	for c in get_children():
+		if c is PartyFollower:
+			c.queue_free()
+	_spawn_followers()

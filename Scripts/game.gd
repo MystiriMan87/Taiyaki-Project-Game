@@ -15,6 +15,7 @@ var _fx_rect: ColorRect
 var _swirl_mat: ShaderMaterial
 
 const MAX_LEVEL := 50
+const MAX_PARTY := 3
 var party_level: Dictionary = {}
 var party_xp: Dictionary = {}
 
@@ -67,6 +68,8 @@ func _on_battle_finished(won: bool, battle: Node) -> void:
 			pending_defeated.queue_free()
 		pending_defeated = null
 		overworld.show()
+		if overworld.has_method("refresh_followers"):
+			overworld.refresh_followers()
 		overworld.process_mode = Node.PROCESS_MODE_INHERIT
 	else:
 		pending_defeated = null
@@ -87,6 +90,19 @@ func _transition(from: float, to: float, duration: float) -> void:
 	if to <= 0.0:
 		_fx_rect.visible = false
 		
+func has_member(member_name: String) -> bool:
+	for s in party:
+		if s != null and s.display_name == member_name:
+			return true
+	return false
+	
+func recruit(s: CharacterStats) -> void:
+	var r: CharacterStats = s.duplicate()
+	r.recruitable = false
+	party.append(r)
+	party_hp[r] = r.max_hp
+	party_mp[r] = r.max_mp
+	
 func get_level(s: CharacterStats) -> int:
 	return party_level.get(s, 1)
 

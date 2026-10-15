@@ -14,4 +14,5 @@ battle_scale = 4.5
 hp_bar_offset = 40.0
 actions = Array[ExtResource("1_8uie1")]([ExtResource("2_pabpf")])
 footprint_height = 100.0
+recruitable = true
 metadata/_custom_type_script = "uid://dqvwo37xxrj4g"

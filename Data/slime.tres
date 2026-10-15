@@ -16,4 +16,6 @@ hp_bar_offset = 40.0
 actions = Array[ExtResource("1_631vh")]([ExtResource("2_141m2")])
 footprint_height = 100.0
 xp_reward = 200
+recruitable = true
+recruit_chance = 1.0
 metadata/_custom_type_script = "uid://dqvwo37xxrj4g"

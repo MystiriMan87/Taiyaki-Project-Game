@@ -14,7 +14,7 @@ func setup(s: CharacterStats, lead: Node2D, idx: int) -> void:
 	stats = s 
 	leader = lead
 	index = idx
-	z_index = -1
+	#z_index = -1
 	sprite = AnimatedSprite2D.new()
 	add_child(sprite)
 	sprite.sprite_frames = s.overworld_frames if s.overworld_frames else s.sprite_frames

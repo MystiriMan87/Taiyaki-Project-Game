@@ -5,9 +5,11 @@
 [ext_resource type="Script" uid="uid://c2mv27sihys65" path="res://Scripts/command_menu.gd" id="2_oxf17"]
 
 [node name="Battle" type="Node2D"]
+y_sort_enabled = true
 script = ExtResource("1_w7k78")
 
 [node name="Background" type="Sprite2D" parent="."]
+z_index = -10
 position = Vector2(641.50006, 356.50003)
 scale = Vector2(2.7182202, 3.1125546)
 texture = ExtResource("2_1ruyk")
