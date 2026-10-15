@@ -1,8 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://cpx7gy7r8afis"]
+[gd_scene load_steps=16 format=4 uid="uid://cpx7gy7r8afis"]
 
 [ext_resource type="Script" uid="uid://cj0jantgygn2y" path="res://Scripts/overworld.gd" id="1_i8gr5"]
+[ext_resource type="Texture2D" uid="uid://bxkc3yorjmftw" path="res://Art/spritesheet_grass.png" id="2_dd6r4"]
 [ext_resource type="PackedScene" uid="uid://b00ag1dqipkpb" path="res://Scenes/player.tscn" id="2_i8gr5"]
 [ext_resource type="Script" uid="uid://dqvwo37xxrj4g" path="res://Scripts/character_stats.gd" id="3_rmeny"]
+[ext_resource type="Texture2D" uid="uid://dpgd2sa0qlniv" path="res://Art/spritesheet_grass2.png" id="3_uvbdg"]
 [ext_resource type="PackedScene" uid="uid://b7ytxj4o0444r" path="res://Scenes/OverworldEnemy.tscn" id="4_2ngsa"]
 [ext_resource type="Resource" uid="uid://f5r8uj05wyun" path="res://Data/slime.tres" id="4_hf0oe"]
 [ext_resource type="Texture2D" uid="uid://xrnfrgdf37ao" path="res://icon.png" id="4_s368d"]
@@ -11,11 +13,55 @@
 [ext_resource type="Resource" uid="uid://calvps0bu2fc2" path="res://Data/greatsword_skeleton.tres" id="8_c0h7r"]
 [ext_resource type="Texture2D" uid="uid://cv3v0ugkhywg1" path="res://Art/PC _ Computer - Final Fantasy II (Pixel Remaster) - Battle - Battle Backgrounds.png" id="9_auytq"]
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_v8nvt"]
+texture = ExtResource("2_dd6r4")
+separation = Vector2i(16, 16)
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+2:1/0 = 0
+2:2/0 = 0
+1:2/0 = 0
+0:2/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5dcxx"]
+texture = ExtResource("3_uvbdg")
+separation = Vector2i(16, 16)
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_c0h7r"]
+tile_size = Vector2i(32, 32)
+sources/2 = SubResource("TileSetAtlasSource_v8nvt")
+sources/3 = SubResource("TileSetAtlasSource_5dcxx")
+
 [node name="Overworld" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("1_i8gr5")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
+position = Vector2(0, 1)
+scale = Vector2(2, 2)
+tile_map_data = PackedByteArray("AAD//wAAAgAAAAAAAAAAAAAAAwABAAAAAAABAAAAAwABAAAAAAACAAAAAwABAAEAAAADAAAAAwABAAAAAAAEAAAAAwABAAAAAAAFAAAAAwABAAAAAAAGAAAAAwABAAAAAAAHAAAAAwABAAAAAAAIAAAAAwABAAAAAAAJAAAAAwABAAAAAAD//wEAAwAAAAEAAAD//wIAAwAAAAEAAAD//wMAAwAAAAEAAAD//wQAAwAAAAEAAAD//wUAAwAAAAEAAAD//wYAAwAAAAIAAAAAAAYAAwABAAIAAAABAAYAAwABAAIAAAACAAYAAwABAAIAAAADAAYAAwABAAIAAAAEAAYAAwABAAIAAAAFAAYAAwABAAIAAAAGAAYAAwABAAIAAAAHAAYAAwABAAIAAAAIAAYAAwABAAIAAAAJAAYAAwABAAIAAAAKAAYAAwACAAIAAAAKAAAAAwACAAAAAAAKAAEAAwACAAEAAAAKAAIAAwACAAEAAAAKAAMAAwACAAEAAAAKAAQAAwACAAEAAAAKAAUAAwACAAEAAAAAAAEAAwABAAEAAAAAAAIAAwABAAEAAAAAAAMAAwABAAEAAAAAAAQAAwABAAEAAAAAAAUAAwABAAEAAAABAAUAAwABAAEAAAABAAQAAwABAAEAAAABAAMAAwABAAEAAAABAAIAAwABAAEAAAABAAEAAwABAAEAAAACAAEAAwABAAEAAAACAAIAAwABAAEAAAACAAMAAwABAAEAAAACAAQAAwABAAEAAAACAAUAAwABAAEAAAADAAUAAwABAAEAAAADAAQAAwABAAEAAAADAAMAAwABAAEAAAADAAIAAwABAAEAAAADAAEAAwABAAEAAAAEAAEAAwABAAEAAAAEAAIAAwABAAEAAAAEAAMAAwABAAEAAAAEAAQAAwABAAEAAAAEAAUAAwABAAEAAAAFAAUAAwABAAEAAAAFAAQAAwABAAEAAAAFAAMAAwABAAEAAAAFAAIAAwABAAEAAAAFAAEAAwABAAEAAAAGAAEAAwABAAEAAAAHAAIAAwABAAEAAAAHAAMAAwABAAEAAAAHAAQAAwABAAEAAAAHAAUAAwABAAEAAAAGAAUAAwABAAEAAAAGAAQAAwABAAEAAAAGAAMAAwABAAEAAAAGAAIAAwABAAEAAAAHAAEAAwABAAEAAAAIAAEAAwABAAEAAAAJAAEAAwABAAEAAAAJAAIAAwABAAEAAAAJAAMAAwABAAEAAAAJAAQAAwABAAEAAAAJAAUAAwABAAEAAAAIAAUAAwABAAEAAAAIAAMAAwABAAEAAAAIAAIAAwABAAEAAAAIAAQAAwABAAEAAAA=")
+tile_set = SubResource("TileSet_c0h7r")
 
 [node name="Player" parent="." instance=ExtResource("2_i8gr5")]
 y_sort_enabled = true
