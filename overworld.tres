@@ -1,0 +1,66 @@
+[gd_resource type="TileSet" load_steps=7 format=3 uid="uid://b3fq3bvisrspb"]
+
+[ext_resource type="Texture2D" uid="uid://bxkc3yorjmftw" path="res://Art/spritesheet_grass.png" id="1_ul2qg"]
+[ext_resource type="Texture2D" uid="uid://dpgd2sa0qlniv" path="res://Art/spritesheet_grass2.png" id="2_ll0dk"]
+[ext_resource type="Texture2D" uid="uid://bym68i1h07o7l" path="res://Art/grass_sheet_80x80.png" id="3_uu7ia"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_v8nvt"]
+texture = ExtResource("1_ul2qg")
+separation = Vector2i(16, 16)
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+2:1/0 = 0
+2:2/0 = 0
+1:2/0 = 0
+0:2/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5dcxx"]
+texture = ExtResource("2_ll0dk")
+separation = Vector2i(16, 16)
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_w7v6x"]
+texture = ExtResource("3_uu7ia")
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, 8, -8, -8, 8, -8, -6.2815657, -6.0342607)
+0:2/0 = 0
+0:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, -4.6988087, -8, -5.0944977, 8, -8, 8)
+2:2/0 = 0
+2:0/0 = 0
+2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, -5.045038, -8, -5.14396)
+4:0/0 = 0
+4:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(4.995577, -8, 8, -8, 8, 8, 4.6988087, 8)
+4:2/0 = 0
+4:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(4.995577, -8, 8, -8, 8, 8, 4.6988087, 8)
+4:4/0 = 0
+4:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(4.995577, 5.143959, -8, 8, 8, 8, 8, -8)
+0:4/0 = 0
+0:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-4.896653, 5.0450363, 8, 8, -8, 8, -8, -8)
+2:4/0 = 0
+2:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, 8, -8, 5.9590797, 8, 5.1677, 8, 8)
+
+[resource]
+physics_layer_0/collision_layer = 1
+sources/2 = SubResource("TileSetAtlasSource_v8nvt")
+sources/3 = SubResource("TileSetAtlasSource_5dcxx")
+sources/4 = SubResource("TileSetAtlasSource_w7v6x")
