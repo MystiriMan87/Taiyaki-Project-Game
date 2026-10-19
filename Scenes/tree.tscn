@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://bsvqmau1ekp5l"]
+
+[ext_resource type="Texture2D" uid="uid://xv3aqw4vm6ix" path="res://Art/tree16x16layered-export.png" id="1_0vwjc"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rsuno"]
+radius = 4.0
+
+[node name="Tree" type="Node2D"]
+
+[node name="Trunk" type="Sprite2D" parent="."]
+scale = Vector2(4, 4)
+texture = ExtResource("1_0vwjc")
+region_enabled = true
+region_rect = Rect2(0, 0, 32, 32)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Trunk"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Trunk/StaticBody2D"]
+position = Vector2(0.25, 14.25)
+shape = SubResource("CircleShape2D_rsuno")
+
+[node name="Leaves" type="Sprite2D" parent="."]
+z_index = 10
+position = Vector2(0, -12)
+scale = Vector2(4, 4)
+texture = ExtResource("1_0vwjc")
+region_enabled = true
+region_rect = Rect2(0, 32, 32, 26)

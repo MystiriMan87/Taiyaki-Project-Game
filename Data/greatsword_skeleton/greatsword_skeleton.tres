@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="CharacterStats" load_steps=6 format=3 uid="uid://calvps0bu2fc2"]
+
+[ext_resource type="Script" uid="uid://dd50utfwvmokr" path="res://Scripts/battle_action.gd" id="1_q7cto"]
+[ext_resource type="Resource" uid="uid://lfvuasqql0g5" path="res://Data/greatsword_skeleton/pierce_gsrd_skltn.tres" id="2_mixrb"]
+[ext_resource type="Resource" uid="uid://cm37rqe1sejop" path="res://Data/greatsword_skeleton/overhead_smash.tres" id="3_mur1a"]
+[ext_resource type="SpriteFrames" uid="uid://b5oxj6jjruj1c" path="res://Data/greatsword_skeleton/greatsword_skeleton_frames.tres" id="4_nekc2"]
+[ext_resource type="Script" uid="uid://dqvwo37xxrj4g" path="res://Scripts/character_stats.gd" id="5_nvbmo"]
+
+[resource]
+script = ExtResource("5_nvbmo")
+display_name = "Sworder"
+sprite_frames = ExtResource("4_nekc2")
+battle_scale = 4.0
+hp_bar_offset = 40.0
+actions = Array[ExtResource("1_q7cto")]([ExtResource("2_mixrb"), ExtResource("3_mur1a")])
+overworld_frames = ExtResource("4_nekc2")
+recruitable = true
+recruit_chance = 1.0
+metadata/_custom_type_script = "uid://dqvwo37xxrj4g"

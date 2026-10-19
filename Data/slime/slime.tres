@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://dd50utfwvmokr" path="res://Scripts/battle_action.gd" id="1_631vh"]
 [ext_resource type="Script" uid="uid://dqvwo37xxrj4g" path="res://Scripts/character_stats.gd" id="1_rg8ur"]
-[ext_resource type="Resource" uid="uid://bjhmru255vsmf" path="res://Data/slime_strike.tres" id="2_141m2"]
-[ext_resource type="SpriteFrames" uid="uid://bivbdm7gdstrg" path="res://Data/slime_frames.tres" id="3_141m2"]
+[ext_resource type="Resource" uid="uid://bjhmru255vsmf" path="res://Data/slime/slime_strike.tres" id="2_141m2"]
+[ext_resource type="SpriteFrames" uid="uid://bivbdm7gdstrg" path="res://Data/slime/slime_frames.tres" id="3_141m2"]
 
 [resource]
 script = ExtResource("1_rg8ur")

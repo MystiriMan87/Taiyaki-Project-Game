@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://beslqxkibmq7r"
+path="res://.godot/imported/Skeleton.aseprite-261593f17aaf71c40f09c9bdbfdd89b5.res"
+
+[deps]
+
+source_file="res://Tiny RPG Character Asset Pack 01 v2.0 -Full 22 Characters/Characters(100x100 split)/Skeleton/Skeleton.aseprite"
+dest_files=["res://.godot/imported/Skeleton.aseprite-261593f17aaf71c40f09c9bdbfdd89b5.res"]
+
+[params]
+

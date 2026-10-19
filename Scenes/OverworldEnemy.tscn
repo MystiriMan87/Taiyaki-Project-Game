@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://b7ytxj4o0444r"]
 
 [ext_resource type="Script" uid="uid://bwtsna13qeq4n" path="res://Scripts/overworld_enemy.gd" id="1_11jdx"]
-[ext_resource type="SpriteFrames" uid="uid://bivbdm7gdstrg" path="res://Data/slime_frames.tres" id="2_vehws"]
+[ext_resource type="SpriteFrames" uid="uid://bivbdm7gdstrg" path="res://Data/slime/slime_frames.tres" id="2_vehws"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_734nh"]
 radius = 16.03122

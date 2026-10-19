@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://b32o158tb27kp"
+path="res://.godot/imported/Swordsman.aseprite-246ec48b284c61cb877010c3b159a2d8.res"
+
+[deps]
+
+source_file="res://Tiny RPG Character Asset Pack 01 v2.0 -Full 22 Characters/Characters(100x100 split)/Swordsman/Swordsman.aseprite"
+dest_files=["res://.godot/imported/Swordsman.aseprite-246ec48b284c61cb877010c3b159a2d8.res"]
+
+[params]
+

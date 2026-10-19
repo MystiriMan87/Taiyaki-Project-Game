@@ -215,8 +215,12 @@ func _end_battle(won: bool) -> void:
 			total_xp += e.stats.xp_reward
 		# save HP/MP first (level-ups add to the saved values)
 		for p in party:
-			Game.party_hp[p.stats] = maxi(p.hp, 1)
-			Game.party_mp[p.stats] = p.mp
+			if not p.is_alive() and p.stats.is_recruit:
+				Game.remove_member(p.stats)
+				details.append("%s has fallen and left the party." % p.stats.display_name)
+			else:
+				Game.party_hp[p.stats] = maxi(p.hp, 1)
+				Game.party_mp[p.stats] = p.mp
 		details.append("+%d XP" % total_xp)
 		for p in party:
 			if not p.is_alive():
@@ -266,6 +270,7 @@ func _end_battle(won: bool) -> void:
 	else:
 		await get_tree().create_timer(1.8).timeout
 	finished.emit(won)
+	
 
 	
 func _callout(actor: Battler, text: String) -> void:

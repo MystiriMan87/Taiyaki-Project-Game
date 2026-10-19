@@ -38,6 +38,13 @@ func _ready() -> void:
 func heal_party() -> void:
 	party_hp.clear()
 	party_mp.clear()
+	
+func remove_member(s: CharacterStats) -> void:
+	party.erase(s)
+	party_hp.erase(s)
+	party_mp.erase(s)
+	party_level.erase(s)
+	party_xp.erase(s)
 
 func start_battle(enemies: Array[CharacterStats], background: Texture2D = null) -> void:
 	if party.is_empty() or party.has(null):
@@ -68,9 +75,9 @@ func _on_battle_finished(won: bool, battle: Node) -> void:
 			pending_defeated.queue_free()
 		pending_defeated = null
 		overworld.show()
+		overworld.process_mode = Node.PROCESS_MODE_INHERIT
 		if overworld.has_method("refresh_followers"):
 			overworld.refresh_followers()
-		overworld.process_mode = Node.PROCESS_MODE_INHERIT
 	else:
 		pending_defeated = null
 		party_hp.clear()
@@ -99,6 +106,7 @@ func has_member(member_name: String) -> bool:
 func recruit(s: CharacterStats) -> void:
 	var r: CharacterStats = s.duplicate()
 	r.recruitable = false
+	r.is_recruit = true
 	party.append(r)
 	party_hp[r] = r.max_hp
 	party_mp[r] = r.max_mp

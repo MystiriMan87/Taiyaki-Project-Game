@@ -37,6 +37,11 @@ func _ready() -> void:
 	cursor.add_theme_font_size_override("font_size", 32)
 
 func open(a: Battler, living_enemies: Array, living_allies: Array = []) -> void:
+	_clear_skill_buttons()
+	_clear_cursor()
+	targeting = false
+	in_skills = false
+	pending_action = null
 	actor = a
 	targets = living_enemies
 	allies = living_allies
@@ -59,6 +64,7 @@ func _show_main() -> void:
 	$AttackButton.grab_focus()
 
 func _on_skills() -> void:
+	_clear_skill_buttons()
 	in_skills = true
 	$AttackButton.hide()
 	skills_button.hide()
@@ -93,6 +99,8 @@ func _on_skills() -> void:
 	(first_enabled if first_enabled else back).grab_focus()
 
 func _on_skill_picked(action: BattleAction) -> void:
+	if action not in actor.stats.actions:
+		return
 	pending_action = action
 	match action.target_type:
 		BattleAction.TargetType.ALL_ENEMIES:
@@ -110,6 +118,7 @@ func _on_attack() -> void:
 
 func _clear_skill_buttons() -> void:
 	if skill_grid:
+		remove_child(skill_grid)
 		skill_grid.queue_free()
 		skill_grid = null
 	skill_buttons.clear()
@@ -145,9 +154,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif event.is_action_pressed("ui_cancel"):
 			_clear_cursor()
 			targeting = false
+			var was_skill := pending_action != null
+			pending_action = null
 			show()
-			if pending_action:
-				_on_skills()
+			if was_skill and skill_grid != null:
+				_focus_grid()
 			else:
 				_show_main()
 		else:
@@ -169,5 +180,15 @@ func _clear_cursor() -> void:
 func _finish(result: Array) -> void:
 	hide()
 	_clear_skill_buttons()
+	_clear_cursor()
 	in_skills = false
+	targeting = false
 	chosen.emit(result)
+	
+func _focus_grid() -> void:
+	if skill_grid == null:
+		return
+	for b in skill_grid.get_children():
+		if b is Button and not b.disabled:
+			b.grab_focus()
+			return

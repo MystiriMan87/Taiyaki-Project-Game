@@ -21,6 +21,8 @@ extends Resource
 @export var overworld_frames: SpriteFrames # walk/idle animations
 @export var overworld_scale := 1.0
 
+var is_recruit := false
+
 @export var xp_reward := 10
 @export_group("Growth per level")
 @export var hp_growth := 12
