@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://ch6k8ci5s2kuk"]
+
+[ext_resource type="Texture2D" uid="uid://cjwdc2pp647cx" path="res://Art/bush32x32.png" id="1_tld8b"]
+[ext_resource type="Texture2D" uid="uid://cq57qthig4pe4" path="res://Art/tree_shadow.png" id="2_kx7ng"]
+
+[node name="Bush" type="Node2D"]
+z_index = -5
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_tld8b")
+
+[node name="shadow" type="Sprite2D" parent="."]
+z_index = -2
+position = Vector2(0, -1)
+scale = Vector2(1.2, 1.2)
+texture = ExtResource("2_kx7ng")

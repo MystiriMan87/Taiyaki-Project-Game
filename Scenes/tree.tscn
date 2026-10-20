@@ -8,6 +8,7 @@ radius = 4.0
 [node name="Tree" type="Node2D"]
 
 [node name="Trunk" type="Sprite2D" parent="."]
+z_index = -2
 scale = Vector2(4, 4)
 texture = ExtResource("1_0vwjc")
 region_enabled = true
