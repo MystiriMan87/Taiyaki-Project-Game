@@ -1,11 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://bsvqmau1ekp5l"]
+[gd_scene load_steps=5 format=3 uid="uid://bsvqmau1ekp5l"]
 
 [ext_resource type="Texture2D" uid="uid://xv3aqw4vm6ix" path="res://Art/tree16x16layered-export.png" id="1_0vwjc"]
+[ext_resource type="Script" uid="uid://dcjg4udiux0wo" path="res://Scripts/tree_sway.gd" id="1_rsuno"]
+[ext_resource type="Script" uid="uid://dtywp6c4xe44d" path="res://Scripts/leaf_drift.gd" id="3_l7sa7"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rsuno"]
 radius = 4.0
 
 [node name="Tree" type="Node2D"]
+script = ExtResource("1_rsuno")
 
 [node name="Trunk" type="Sprite2D" parent="."]
 z_index = -2
@@ -20,10 +23,14 @@ region_rect = Rect2(0, 0, 32, 32)
 position = Vector2(0.25, 14.25)
 shape = SubResource("CircleShape2D_rsuno")
 
-[node name="Leaves" type="Sprite2D" parent="."]
+[node name="Leavessprite" type="Sprite2D" parent="."]
 z_index = 10
 position = Vector2(0, -12)
-scale = Vector2(4, 4)
+scale = Vector2(4.1, 4.1)
 texture = ExtResource("1_0vwjc")
 region_enabled = true
 region_rect = Rect2(0, 32, 32, 26)
+
+[node name="Leaves" type="GPUParticles2D" parent="."]
+script = ExtResource("3_l7sa7")
+leaf_color = Color(0.25490198, 0.36862746, 0.33333334, 1)

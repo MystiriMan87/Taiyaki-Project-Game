@@ -171,3 +171,5 @@ position = Vector2(-119, -111)
 scale = Vector2(4, 4)
 
 [node name="Bushes" type="Node" parent="."]
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]

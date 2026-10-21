@@ -1,10 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://ch6k8ci5s2kuk"]
+[gd_scene load_steps=5 format=3 uid="uid://ch6k8ci5s2kuk"]
 
+[ext_resource type="Script" uid="uid://dcjg4udiux0wo" path="res://Scripts/tree_sway.gd" id="1_3fki3"]
 [ext_resource type="Texture2D" uid="uid://cjwdc2pp647cx" path="res://Art/bush32x32.png" id="1_tld8b"]
 [ext_resource type="Texture2D" uid="uid://cq57qthig4pe4" path="res://Art/tree_shadow.png" id="2_kx7ng"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3fki3"]
+size = Vector2(20, 15)
+
 [node name="Bush" type="Node2D"]
 z_index = -5
+script = ExtResource("1_3fki3")
+sprite_path = NodePath("Sprite2D")
+strength = 1.7
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_tld8b")
@@ -14,3 +21,11 @@ z_index = -2
 position = Vector2(0, -1)
 scale = Vector2(1.2, 1.2)
 texture = ExtResource("2_kx7ng")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(1, 9.5)
+shape = SubResource("RectangleShape2D_3fki3")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
