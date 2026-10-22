@@ -1,6 +1,7 @@
 extends Node2D
 
 var party_menu: PartyMenu
+var roster_menu: RosterMenu
 
 func _ready() -> void:
 	Game.overworld = self
@@ -10,6 +11,8 @@ func _ready() -> void:
 	_spawn_followers()
 	party_menu = PartyMenu.new()
 	add_child(party_menu)
+	roster_menu = RosterMenu.new()
+	add_child(roster_menu)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and event.keycode == KEY_H:
@@ -18,6 +21,10 @@ func _unhandled_input(event: InputEvent) -> void:
 	var is_tab: bool = event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_TAB
 	if (event.is_action_pressed("ui_cancel") or is_tab) and not party_menu.visible and not Game._transitioning:
 		party_menu.open()
+		get_viewport().set_input_as_handled()
+	var is_r: bool = event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_R
+	if is_r and not roster_menu.visible and not party_menu.visible and not Game._transitioning:
+		roster_menu.open()
 		get_viewport().set_input_as_handled()
 
 func _spawn_followers() -> void:

@@ -19,6 +19,11 @@ const MAX_PARTY := 3
 var party_level: Dictionary = {}
 var party_xp: Dictionary = {}
 
+var reserve: Array[CharacterStats] = []
+var seen: Dictionary = {}
+var _species_cache: Array[CharacterStats] = []
+
+
 func _ready() -> void:
 	_fx_layer = CanvasLayer.new()
 	_fx_layer.layer = 100
@@ -45,6 +50,7 @@ func remove_member(s: CharacterStats) -> void:
 	party_mp.erase(s)
 	party_level.erase(s)
 	party_xp.erase(s)
+	reserve.erase(s)
 
 func start_battle(enemies: Array[CharacterStats], background: Texture2D = null) -> void:
 	if party.is_empty() or party.has(null):
@@ -98,18 +104,57 @@ func _transition(from: float, to: float, duration: float) -> void:
 		_fx_rect.visible = false
 		
 func has_member(member_name: String) -> bool:
-	for s in party:
+	for s in party + reserve:
 		if s != null and s.display_name == member_name:
 			return true
 	return false
 	
-func recruit(s: CharacterStats) -> void:
+func recruit(s: CharacterStats) -> bool:
 	var r: CharacterStats = s.duplicate()
 	r.recruitable = false
 	r.is_recruit = true
-	party.append(r)
 	party_hp[r] = r.max_hp
 	party_mp[r] = r.max_mp
+	seen[s.display_name] = true
+	if party.size() < MAX_PARTY:
+		party.append(r)
+		return true
+	reserve.append(r)
+	return false
+	
+func add_from_reserve(m: CharacterStats) -> void:
+	if party.size() < MAX_PARTY and reserve.has(m):
+		reserve.erase(m)
+		party.append(m)
+		
+func move_to_reserve(party_index: int) -> void:
+	if party_index <= 0 or party_index >= party.size():
+		return
+	reserve.append(party[party_index])
+	party.remove_at(party_index)
+
+func swap_member(party_index: int, incoming: CharacterStats) -> void:
+	if party_index <= 0 or party_index >= party.size() or not reserve.has(incoming):
+		return
+	var outgoing: CharacterStats = party[party_index]
+	party[party_index] = incoming
+	reserve.erase(incoming)
+	reserve.append(outgoing)
+	
+func get_recruitable_species() -> Array[CharacterStats]:
+	if not _species_cache.is_empty():
+		return _species_cache
+	var dir := DirAccess.open("res://Data")
+	if dir == null:
+		return _species_cache
+	for f in dir.get_files():
+		var fname: String = f.trim_suffix(".remap")
+		if not fname.ends_with(".tres"):
+			continue
+		var res: Resource = load("res://Data/" + fname)
+		if res is CharacterStats and (res as CharacterStats).recruitable:
+			_species_cache.append(res as CharacterStats)
+	return _species_cache
 	
 func get_level(s: CharacterStats) -> int:
 	return party_level.get(s, 1)

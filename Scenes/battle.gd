@@ -44,6 +44,7 @@ func setup(party_stats: Array[CharacterStats], enemy_stats: Array[CharacterStats
 	for i in enemy_stats.size():
 		var b := _spawn(enemy_stats[i], false, Vector2(350, GROUND_Y + i * 90))
 		enemies.append(b)
+		Game.seen[enemy_stats[i].display_name] = true
 	_run_battle()
 	_place_group(party, 900, true)
 	_place_group(enemies, 350)
@@ -410,8 +411,7 @@ func _result_label(text: String, size: int) -> Label:
 	return l
 	
 func _try_recruit() -> void:
-	if Game.party.size() >= Game.MAX_PARTY:
-		return
+	
 	var candidates: Array[Battler] = []
 	for e in enemies:
 		var s: CharacterStats = e.stats
@@ -422,8 +422,9 @@ func _try_recruit() -> void:
 	var chosen: Battler = candidates.pick_random()
 	var accepted: bool = await _recruit_dialog(chosen.stats, chosen.get_icon())
 	if accepted:
-		Game.recruit(chosen.stats)
-		var msg := _result_label("%s joined the party!" % chosen.stats.display_name, 40)
+		var in_party: bool = Game.recruit(chosen.stats)
+		var text: String = "%s joined the party!" if in_party else "%s joined the reserve!"
+		var msg := _result_label(text % chosen.stats.display_name, 40)
 		msg.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
 		$UI.add_child(msg)
 		await get_tree().create_timer(1.6).timeout
