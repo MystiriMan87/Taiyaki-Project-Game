@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://cpx7gy7r8afis"]
+[gd_scene load_steps=14 format=4 uid="uid://cpx7gy7r8afis"]
 
 [ext_resource type="Script" uid="uid://cj0jantgygn2y" path="res://Scripts/overworld.gd" id="1_i8gr5"]
 [ext_resource type="TileSet" uid="uid://b3fq3bvisrspb" path="res://overworld.tres" id="2_c0h7r"]
@@ -7,7 +7,6 @@
 [ext_resource type="PackedScene" uid="uid://b7ytxj4o0444r" path="res://Scenes/OverworldEnemy.tscn" id="4_2ngsa"]
 [ext_resource type="Resource" uid="uid://f5r8uj05wyun" path="res://Data/slime/slime.tres" id="4_hf0oe"]
 [ext_resource type="Resource" uid="uid://8n88ysomuw88" path="res://Data/skeleton/skeleton.tres" id="5_2ngsa"]
-[ext_resource type="Texture2D" uid="uid://cl8g80pv8eugy" path="res://Art/PC _ Computer - Final Fantasy II (Pixel Remaster) - Battle - Battle Backgrounds (1).png" id="8_auytq"]
 [ext_resource type="Resource" uid="uid://calvps0bu2fc2" path="res://Data/greatsword_skeleton/greatsword_skeleton.tres" id="8_c0h7r"]
 [ext_resource type="Texture2D" uid="uid://cv3v0ugkhywg1" path="res://Art/PC _ Computer - Final Fantasy II (Pixel Remaster) - Battle - Battle Backgrounds.png" id="9_auytq"]
 [ext_resource type="PackedScene" uid="uid://bsvqmau1ekp5l" path="res://Scenes/tree.tscn" id="11_v1c68"]
@@ -44,7 +43,34 @@ position = Vector2(-147, 190)
 scale = Vector2(4, 4)
 stats = ExtResource("4_hf0oe")
 extra_pool = Array[ExtResource("3_rmeny")]([ExtResource("5_2ngsa"), ExtResource("8_c0h7r")])
-battle_backgrounds = Array[Texture2D]([ExtResource("8_auytq"), ExtResource("9_auytq")])
+battle_backgrounds = Array[Texture2D]([ExtResource("9_auytq")])
+chase_range = 150.0
+
+[node name="OverworldEnemy4" parent="." instance=ExtResource("4_2ngsa")]
+y_sort_enabled = true
+position = Vector2(1687, -165)
+scale = Vector2(4, 4)
+stats = ExtResource("4_hf0oe")
+extra_pool = Array[ExtResource("3_rmeny")]([ExtResource("5_2ngsa"), ExtResource("8_c0h7r")])
+battle_backgrounds = Array[Texture2D]([ExtResource("9_auytq")])
+chase_range = 150.0
+
+[node name="OverworldEnemy5" parent="." instance=ExtResource("4_2ngsa")]
+y_sort_enabled = true
+position = Vector2(2075, 353)
+scale = Vector2(4, 4)
+stats = ExtResource("4_hf0oe")
+extra_pool = Array[ExtResource("3_rmeny")]([ExtResource("5_2ngsa"), ExtResource("8_c0h7r")])
+battle_backgrounds = Array[Texture2D]([ExtResource("9_auytq")])
+chase_range = 150.0
+
+[node name="OverworldEnemy6" parent="." instance=ExtResource("4_2ngsa")]
+y_sort_enabled = true
+position = Vector2(1601, 328)
+scale = Vector2(4, 4)
+stats = ExtResource("4_hf0oe")
+extra_pool = Array[ExtResource("3_rmeny")]([ExtResource("5_2ngsa"), ExtResource("8_c0h7r")])
+battle_backgrounds = Array[Texture2D]([ExtResource("9_auytq")])
 chase_range = 150.0
 
 [node name="OverworldEnemy2" parent="." instance=ExtResource("4_2ngsa")]
@@ -53,7 +79,7 @@ position = Vector2(-371, 348)
 scale = Vector2(4, 4)
 stats = ExtResource("11_v8nvt")
 extra_pool = Array[ExtResource("3_rmeny")]([ExtResource("11_v8nvt")])
-battle_backgrounds = Array[Texture2D]([ExtResource("8_auytq"), ExtResource("9_auytq")])
+battle_backgrounds = Array[Texture2D]([ExtResource("9_auytq")])
 chase_range = 150.0
 
 [node name="OverworldEnemy3" parent="." instance=ExtResource("4_2ngsa")]
@@ -62,200 +88,10 @@ position = Vector2(561, 220)
 scale = Vector2(4, 4)
 stats = ExtResource("5_2ngsa")
 extra_pool = Array[ExtResource("3_rmeny")]([ExtResource("4_hf0oe"), ExtResource("8_c0h7r")])
-battle_backgrounds = Array[Texture2D]([ExtResource("8_auytq"), ExtResource("9_auytq")])
+battle_backgrounds = Array[Texture2D]([ExtResource("9_auytq")])
 chase_range = 150.0
 
 [node name="Trees" type="Node" parent="."]
-
-[node name="Tree" parent="Trees" instance=ExtResource("11_v1c68")]
-position = Vector2(1111, -7.0000153)
-scale = Vector2(1.5, 1.5)
-
-[node name="Sprite2D" type="Sprite2D" parent="Trees/Tree"]
-z_index = -3
-position = Vector2(0, 19.333336)
-scale = Vector2(3.5, 3.5)
-texture = ExtResource("12_dd6r4")
-
-[node name="Tree9" parent="Trees" instance=ExtResource("11_v1c68")]
-position = Vector2(1018, -19.000015)
-scale = Vector2(1.5, 1.5)
-
-[node name="Sprite2D" type="Sprite2D" parent="Trees/Tree9"]
-z_index = -3
-position = Vector2(0, 19.333336)
-scale = Vector2(3.5, 3.5)
-texture = ExtResource("12_dd6r4")
-
-[node name="Tree2" parent="Trees" instance=ExtResource("11_v1c68")]
-position = Vector2(1204, -15.000015)
-scale = Vector2(1.5, 1.5)
-
-[node name="Sprite2D" type="Sprite2D" parent="Trees/Tree2"]
-z_index = -3
-position = Vector2(0, 19.333336)
-scale = Vector2(3.5, 3.5)
-texture = ExtResource("12_dd6r4")
-
-[node name="Tree3" parent="Trees" instance=ExtResource("11_v1c68")]
-position = Vector2(1292, -12)
-scale = Vector2(1.5, 1.5)
-
-[node name="Sprite2D" type="Sprite2D" parent="Trees/Tree3"]
-z_index = -3
-position = Vector2(0, 19.333336)
-scale = Vector2(3.5, 3.5)
-texture = ExtResource("12_dd6r4")
-
-[node name="Tree4" parent="Trees" instance=ExtResource("11_v1c68")]
-position = Vector2(1373, -4.0000076)
-scale = Vector2(1.5, 1.5)
-
-[node name="Sprite2D" type="Sprite2D" parent="Trees/Tree4"]
-z_index = -3
-position = Vector2(0, 19.333336)
-scale = Vector2(3.5, 3.5)
-texture = ExtResource("12_dd6r4")
-
-[node name="Tree10" parent="Trees" instance=ExtResource("11_v1c68")]
-position = Vector2(1564, -378)
-scale = Vector2(1.5, 1.5)
-
-[node name="Sprite2D" type="Sprite2D" parent="Trees/Tree10"]
-z_index = -3
-position = Vector2(0, 19.333336)
-scale = Vector2(3.5, 3.5)
-texture = ExtResource("12_dd6r4")
-
-[node name="Tree11" parent="Trees" instance=ExtResource("11_v1c68")]
-position = Vector2(1471, -390)
-scale = Vector2(1.5, 1.5)
-
-[node name="Sprite2D" type="Sprite2D" parent="Trees/Tree11"]
-z_index = -3
-position = Vector2(0, 19.333336)
-scale = Vector2(3.5, 3.5)
-texture = ExtResource("12_dd6r4")
-
-[node name="Tree12" parent="Trees" instance=ExtResource("11_v1c68")]
-position = Vector2(1657, -386)
-scale = Vector2(1.5, 1.5)
-
-[node name="Sprite2D" type="Sprite2D" parent="Trees/Tree12"]
-z_index = -3
-position = Vector2(0, 19.333336)
-scale = Vector2(3.5, 3.5)
-texture = ExtResource("12_dd6r4")
-
-[node name="Tree13" parent="Trees" instance=ExtResource("11_v1c68")]
-position = Vector2(1745, -383)
-scale = Vector2(1.5, 1.5)
-
-[node name="Sprite2D" type="Sprite2D" parent="Trees/Tree13"]
-z_index = -3
-position = Vector2(0, 19.333336)
-scale = Vector2(3.5, 3.5)
-texture = ExtResource("12_dd6r4")
-
-[node name="Tree14" parent="Trees" instance=ExtResource("11_v1c68")]
-position = Vector2(1826, -375)
-scale = Vector2(1.5, 1.5)
-
-[node name="Sprite2D" type="Sprite2D" parent="Trees/Tree14"]
-z_index = -3
-position = Vector2(0, 19.333336)
-scale = Vector2(3.5, 3.5)
-texture = ExtResource("12_dd6r4")
-
-[node name="Tree15" parent="Trees" instance=ExtResource("11_v1c68")]
-position = Vector2(1954, -376)
-scale = Vector2(1.5, 1.5)
-
-[node name="Sprite2D" type="Sprite2D" parent="Trees/Tree15"]
-z_index = -3
-position = Vector2(0, 19.333336)
-scale = Vector2(3.5, 3.5)
-texture = ExtResource("12_dd6r4")
-
-[node name="Tree16" parent="Trees" instance=ExtResource("11_v1c68")]
-position = Vector2(1861, -388)
-scale = Vector2(1.5, 1.5)
-
-[node name="Sprite2D" type="Sprite2D" parent="Trees/Tree16"]
-z_index = -3
-position = Vector2(0, 19.333336)
-scale = Vector2(3.5, 3.5)
-texture = ExtResource("12_dd6r4")
-
-[node name="Tree17" parent="Trees" instance=ExtResource("11_v1c68")]
-position = Vector2(2047, -384)
-scale = Vector2(1.5, 1.5)
-
-[node name="Sprite2D" type="Sprite2D" parent="Trees/Tree17"]
-z_index = -3
-position = Vector2(0, 19.333336)
-scale = Vector2(3.5, 3.5)
-texture = ExtResource("12_dd6r4")
-
-[node name="Tree18" parent="Trees" instance=ExtResource("11_v1c68")]
-position = Vector2(2135, -381)
-scale = Vector2(1.5, 1.5)
-
-[node name="Sprite2D" type="Sprite2D" parent="Trees/Tree18"]
-z_index = -3
-position = Vector2(0, 19.333336)
-scale = Vector2(3.5, 3.5)
-texture = ExtResource("12_dd6r4")
-
-[node name="Tree19" parent="Trees" instance=ExtResource("11_v1c68")]
-position = Vector2(2172, -382)
-scale = Vector2(1.5, 1.5)
-
-[node name="Sprite2D" type="Sprite2D" parent="Trees/Tree19"]
-z_index = -3
-position = Vector2(0, 19.333336)
-scale = Vector2(3.5, 3.5)
-texture = ExtResource("12_dd6r4")
-
-[node name="Tree5" parent="Trees" instance=ExtResource("11_v1c68")]
-position = Vector2(576, -200.99998)
-scale = Vector2(1.5, 1.5)
-
-[node name="Sprite2D" type="Sprite2D" parent="Trees/Tree5"]
-z_index = -3
-position = Vector2(0, 19.333336)
-scale = Vector2(3.5, 3.5)
-texture = ExtResource("12_dd6r4")
-
-[node name="Tree6" parent="Trees" instance=ExtResource("11_v1c68")]
-position = Vector2(674, -110)
-scale = Vector2(1.5, 1.5)
-
-[node name="Sprite2D" type="Sprite2D" parent="Trees/Tree6"]
-z_index = -3
-position = Vector2(0, 19.333336)
-scale = Vector2(3.5, 3.5)
-texture = ExtResource("12_dd6r4")
-
-[node name="Tree7" parent="Trees" instance=ExtResource("11_v1c68")]
-position = Vector2(765, -204.99998)
-scale = Vector2(1.5, 1.5)
-
-[node name="Sprite2D" type="Sprite2D" parent="Trees/Tree7"]
-z_index = -3
-position = Vector2(0, 19.333336)
-scale = Vector2(3.5, 3.5)
-texture = ExtResource("12_dd6r4")
-
-[node name="Tree8" parent="Trees" instance=ExtResource("11_v1c68")]
-position = Vector2(868, -90.999985)
-scale = Vector2(1.5, 1.5)
-
-[node name="Sprite2D" type="Sprite2D" parent="Trees/Tree8"]
-z_index = -3
-position = Vector2(0, 19.333336)
-scale = Vector2(3.5, 3.5)
-texture = ExtResource("12_dd6r4")
 
 [node name="Bush" parent="." instance=ExtResource("13_uvbdg")]
 position = Vector2(116, 383)
@@ -284,3 +120,201 @@ scale = Vector2(4, 4)
 [node name="Bushes" type="Node" parent="."]
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+z_index = -51
+offset_left = -1906.0
+offset_top = -1543.0
+offset_right = 3310.0
+offset_bottom = 1908.0
+color = Color(3.5616756e-06, 0.681127, 0.68131113, 1)
+
+[node name="Tree" parent="." instance=ExtResource("11_v1c68")]
+position = Vector2(1111, -7.0000153)
+scale = Vector2(1.5, 1.5)
+
+[node name="Sprite2D" type="Sprite2D" parent="Tree"]
+z_index = -3
+position = Vector2(0, 19.333336)
+scale = Vector2(3.5, 3.5)
+texture = ExtResource("12_dd6r4")
+
+[node name="Tree9" parent="." instance=ExtResource("11_v1c68")]
+position = Vector2(1018, -19.000015)
+scale = Vector2(1.5, 1.5)
+
+[node name="Sprite2D" type="Sprite2D" parent="Tree9"]
+z_index = -3
+position = Vector2(0, 19.333336)
+scale = Vector2(3.5, 3.5)
+texture = ExtResource("12_dd6r4")
+
+[node name="Tree2" parent="." instance=ExtResource("11_v1c68")]
+position = Vector2(1204, -15.000015)
+scale = Vector2(1.5, 1.5)
+
+[node name="Sprite2D" type="Sprite2D" parent="Tree2"]
+z_index = -3
+position = Vector2(0, 19.333336)
+scale = Vector2(3.5, 3.5)
+texture = ExtResource("12_dd6r4")
+
+[node name="Tree3" parent="." instance=ExtResource("11_v1c68")]
+position = Vector2(1292, -12)
+scale = Vector2(1.5, 1.5)
+
+[node name="Sprite2D" type="Sprite2D" parent="Tree3"]
+z_index = -3
+position = Vector2(0, 19.333336)
+scale = Vector2(3.5, 3.5)
+texture = ExtResource("12_dd6r4")
+
+[node name="Tree4" parent="." instance=ExtResource("11_v1c68")]
+position = Vector2(1373, -4.0000076)
+scale = Vector2(1.5, 1.5)
+
+[node name="Sprite2D" type="Sprite2D" parent="Tree4"]
+z_index = -3
+position = Vector2(0, 19.333336)
+scale = Vector2(3.5, 3.5)
+texture = ExtResource("12_dd6r4")
+
+[node name="Tree10" parent="." instance=ExtResource("11_v1c68")]
+position = Vector2(1564, -378)
+scale = Vector2(1.5, 1.5)
+
+[node name="Sprite2D" type="Sprite2D" parent="Tree10"]
+z_index = -3
+position = Vector2(0, 19.333336)
+scale = Vector2(3.5, 3.5)
+texture = ExtResource("12_dd6r4")
+
+[node name="Tree11" parent="." instance=ExtResource("11_v1c68")]
+position = Vector2(1471, -390)
+scale = Vector2(1.5, 1.5)
+
+[node name="Sprite2D" type="Sprite2D" parent="Tree11"]
+z_index = -3
+position = Vector2(0, 19.333336)
+scale = Vector2(3.5, 3.5)
+texture = ExtResource("12_dd6r4")
+
+[node name="Tree12" parent="." instance=ExtResource("11_v1c68")]
+position = Vector2(1657, -386)
+scale = Vector2(1.5, 1.5)
+
+[node name="Sprite2D" type="Sprite2D" parent="Tree12"]
+z_index = -3
+position = Vector2(0, 19.333336)
+scale = Vector2(3.5, 3.5)
+texture = ExtResource("12_dd6r4")
+
+[node name="Tree13" parent="." instance=ExtResource("11_v1c68")]
+position = Vector2(1745, -383)
+scale = Vector2(1.5, 1.5)
+
+[node name="Sprite2D" type="Sprite2D" parent="Tree13"]
+z_index = -3
+position = Vector2(0, 19.333336)
+scale = Vector2(3.5, 3.5)
+texture = ExtResource("12_dd6r4")
+
+[node name="Tree14" parent="." instance=ExtResource("11_v1c68")]
+position = Vector2(1826, -375)
+scale = Vector2(1.5, 1.5)
+
+[node name="Sprite2D" type="Sprite2D" parent="Tree14"]
+z_index = -3
+position = Vector2(0, 19.333336)
+scale = Vector2(3.5, 3.5)
+texture = ExtResource("12_dd6r4")
+
+[node name="Tree15" parent="." instance=ExtResource("11_v1c68")]
+position = Vector2(1954, -376)
+scale = Vector2(1.5, 1.5)
+
+[node name="Sprite2D" type="Sprite2D" parent="Tree15"]
+z_index = -3
+position = Vector2(0, 19.333336)
+scale = Vector2(3.5, 3.5)
+texture = ExtResource("12_dd6r4")
+
+[node name="Tree16" parent="." instance=ExtResource("11_v1c68")]
+position = Vector2(1861, -388)
+scale = Vector2(1.5, 1.5)
+
+[node name="Sprite2D" type="Sprite2D" parent="Tree16"]
+z_index = -3
+position = Vector2(0, 19.333336)
+scale = Vector2(3.5, 3.5)
+texture = ExtResource("12_dd6r4")
+
+[node name="Tree17" parent="." instance=ExtResource("11_v1c68")]
+position = Vector2(2047, -384)
+scale = Vector2(1.5, 1.5)
+
+[node name="Sprite2D" type="Sprite2D" parent="Tree17"]
+z_index = -3
+position = Vector2(0, 19.333336)
+scale = Vector2(3.5, 3.5)
+texture = ExtResource("12_dd6r4")
+
+[node name="Tree18" parent="." instance=ExtResource("11_v1c68")]
+position = Vector2(2135, -381)
+scale = Vector2(1.5, 1.5)
+
+[node name="Sprite2D" type="Sprite2D" parent="Tree18"]
+z_index = -3
+position = Vector2(0, 19.333336)
+scale = Vector2(3.5, 3.5)
+texture = ExtResource("12_dd6r4")
+
+[node name="Tree19" parent="." instance=ExtResource("11_v1c68")]
+position = Vector2(2172, -382)
+scale = Vector2(1.5, 1.5)
+
+[node name="Sprite2D" type="Sprite2D" parent="Tree19"]
+z_index = -3
+position = Vector2(0, 19.333336)
+scale = Vector2(3.5, 3.5)
+texture = ExtResource("12_dd6r4")
+
+[node name="Tree5" parent="." instance=ExtResource("11_v1c68")]
+position = Vector2(576, -200.99998)
+scale = Vector2(1.5, 1.5)
+
+[node name="Sprite2D" type="Sprite2D" parent="Tree5"]
+z_index = -3
+position = Vector2(0, 19.333336)
+scale = Vector2(3.5, 3.5)
+texture = ExtResource("12_dd6r4")
+
+[node name="Tree6" parent="." instance=ExtResource("11_v1c68")]
+position = Vector2(674, -110)
+scale = Vector2(1.5, 1.5)
+
+[node name="Sprite2D" type="Sprite2D" parent="Tree6"]
+z_index = -3
+position = Vector2(0, 19.333336)
+scale = Vector2(3.5, 3.5)
+texture = ExtResource("12_dd6r4")
+
+[node name="Tree7" parent="." instance=ExtResource("11_v1c68")]
+position = Vector2(765, -204.99998)
+scale = Vector2(1.5, 1.5)
+
+[node name="Sprite2D" type="Sprite2D" parent="Tree7"]
+z_index = -3
+position = Vector2(0, 19.333336)
+scale = Vector2(3.5, 3.5)
+texture = ExtResource("12_dd6r4")
+
+[node name="Tree8" parent="." instance=ExtResource("11_v1c68")]
+position = Vector2(868, -90.999985)
+scale = Vector2(1.5, 1.5)
+
+[node name="Sprite2D" type="Sprite2D" parent="Tree8"]
+z_index = -3
+position = Vector2(0, 19.333336)
+scale = Vector2(3.5, 3.5)
+texture = ExtResource("12_dd6r4")
