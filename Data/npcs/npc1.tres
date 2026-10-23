@@ -1,0 +1,53 @@
+[gd_resource type="SpriteFrames" load_steps=8 format=3 uid="uid://dko7ogrjp3g6s"]
+
+[ext_resource type="Texture2D" uid="uid://b8tk3x7cf1uak" path="res://Tiny RPG Character Asset Pack 01 v2.0 -Full 22 Characters/Characters(100x100 split)/Necromancer/Necromancer with shadows/Necromancer_Idle.png" id="1_512cv"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0nynx"]
+atlas = ExtResource("1_512cv")
+region = Rect2(0, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vkfw0"]
+atlas = ExtResource("1_512cv")
+region = Rect2(100, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n8ooi"]
+atlas = ExtResource("1_512cv")
+region = Rect2(200, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_54fq3"]
+atlas = ExtResource("1_512cv")
+region = Rect2(300, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_luslj"]
+atlas = ExtResource("1_512cv")
+region = Rect2(400, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qxnb0"]
+atlas = ExtResource("1_512cv")
+region = Rect2(500, 0, 100, 100)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0nynx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vkfw0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n8ooi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_54fq3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_luslj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qxnb0")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 9.0
+}]

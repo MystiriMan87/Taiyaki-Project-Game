@@ -2,6 +2,7 @@ extends Node2D
 
 var party_menu: PartyMenu
 var roster_menu: RosterMenu
+var dialogue_box: DialogueBox
 
 func _ready() -> void:
 	Game.overworld = self
@@ -13,6 +14,8 @@ func _ready() -> void:
 	add_child(party_menu)
 	roster_menu = RosterMenu.new()
 	add_child(roster_menu)
+	dialogue_box = DialogueBox.new()
+	add_child(dialogue_box)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and event.keycode == KEY_H:

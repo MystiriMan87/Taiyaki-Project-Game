@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=4 uid="uid://cpx7gy7r8afis"]
+[gd_scene load_steps=15 format=4 uid="uid://cpx7gy7r8afis"]
 
 [ext_resource type="Script" uid="uid://cj0jantgygn2y" path="res://Scripts/overworld.gd" id="1_i8gr5"]
 [ext_resource type="TileSet" uid="uid://b3fq3bvisrspb" path="res://overworld.tres" id="2_c0h7r"]
@@ -13,6 +13,7 @@
 [ext_resource type="Resource" uid="uid://dya1jhapjqcii" path="res://Data/orc/orc.tres" id="11_v8nvt"]
 [ext_resource type="Texture2D" uid="uid://cq57qthig4pe4" path="res://Art/tree_shadow.png" id="12_dd6r4"]
 [ext_resource type="PackedScene" uid="uid://ch6k8ci5s2kuk" path="res://Scenes/bush.tscn" id="13_uvbdg"]
+[ext_resource type="PackedScene" uid="uid://dq2jr7d8wyjqs" path="res://Scenes/npc.tscn" id="14_v8nvt"]
 
 [node name="Overworld" type="Node2D"]
 y_sort_enabled = true
@@ -318,3 +319,7 @@ z_index = -3
 position = Vector2(0, 19.333336)
 scale = Vector2(3.5, 3.5)
 texture = ExtResource("12_dd6r4")
+
+[node name="NPC" parent="." instance=ExtResource("14_v8nvt")]
+position = Vector2(111, -172)
+scale = Vector2(4, 4)
