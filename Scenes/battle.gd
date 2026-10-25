@@ -209,70 +209,175 @@ func _party_dead() -> bool:
 	return party.all(func(p): return not p.is_alive())
 	
 func _end_battle(won: bool) -> void:
-	var details: Array[String] = []
+	var rows: Array = [] 
+	var total_xp := 0
+	var fallen: Array[String] = []
 	if won:
-		var total_xp := 0
 		for e in enemies:
 			total_xp += e.stats.xp_reward
-		# save HP/MP first (level-ups add to the saved values)
 		for p in party:
 			if not p.is_alive() and p.stats.is_recruit:
 				Game.remove_member(p.stats)
-				details.append("%s has fallen and left the party." % p.stats.display_name)
+				fallen.append(p.stats.display_name)
 			else:
 				Game.party_hp[p.stats] = maxi(p.hp, 1)
 				Game.party_mp[p.stats] = p.mp
-		details.append("+%d XP" % total_xp)
 		for p in party:
-			if not p.is_alive():
-				continue          # knocked-out members earn no XP
+			if not p.is_alive() or not Game.party.has(p.stats):
+				continue
+			var lvl_before: int = Game.get_level(p.stats)
+			var xp_before: int = Game.party_xp.get(p.stats, 0)
 			var g: Dictionary = Game.award_xp(p.stats, total_xp)
-			var lvl: int = Game.get_level(p.stats)
-			details.append("%s  Lv %d   (%d / %d XP)" % [
-				p.stats.display_name, lvl,
-				Game.party_xp.get(p.stats, 0), Game.xp_to_next(lvl)])
-			if g["levels"] > 0:
-				details.append("%s reached Lv %d!   HP +%d  MP +%d  ATK +%d  DEF +%d  MAG +%d" % [
-					p.stats.display_name, Game.get_level(p.stats),
-					g["hp"], g["mp"], g["attack"], g["defense"], g["magic"]])
-
-	var box := VBoxContainer.new()
-	box.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	box.alignment = BoxContainer.ALIGNMENT_CENTER
-	box.modulate.a = 0.0
-	box.add_child(_result_label("Victory!" if won else "Defeat...", 72))
-	for line in details:
-		box.add_child(_result_label(line, 28))
+			rows.append({"stats": p.stats, "gain": g, "lvl_before": lvl_before, "xp_before": xp_before})
+			
+	var dim := ColorRect.new()
+	dim.color = Color(0, 0, 0, 0.0)
+	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
+	$UI.add_child(dim)
+	create_tween().tween_property(dim, "color:a", 0.55, 0.4)
+	
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	$UI.add_child(center)
+	
+	var panel := PanelContainer.new()
+	panel.add_theme_stylebox_override("panel", _panel_style())
+	panel.custom_minimum_size = Vector2(760, 0)
+	panel.modulate.a = 0.0
+	panel.scale = Vector2(0.92, 0.92)
+	panel.pivot_offset = Vector2(380, 200)
+	center.add_child(panel)
+	
+	var col := VBoxContainer.new()
+	col.add_theme_constant_override("separation", 10)
+	panel.add_child(col)
+	
+	var title := _result_label("Victory!" if won else "Defeat..", 54)
+	title.add_theme_color_override("font_color", Color(1, 0.88, 0.45) if won else Color(0.85, 0.5, 0.5))
+	col.add_child(title)
+	
+	var bars: Array = []
 	if won:
-		box.add_child(_result_label("Press Enter", 20))
-	$UI.add_child(box)
-
-	create_tween().tween_property(box, "modulate:a", 1.0, 0.4)
-
+		col.add_child(_result_label("+%d XP" % total_xp, 26))
+		col.add_child(HSeparator.new())
+		for r in rows:
+			var built: Dictionary = _build_member_row(r)
+			col.add_child(built["node"])
+			bars.append(built)
+		for name_str in fallen:
+			var f := _result_label("%s has fallen and left the party." % name_str, 18)
+			f.modulate = Color(1, 0.6, 0.6)
+			col.add_child(f)
+		col.add_child(_result_label("Press Enter", 16))
+		
+	var tw := create_tween().set_parallel(true)
+	tw.tween_property(panel, "modulate:a", 1.0, 0.35)
+	tw.tween_property(panel, "scale", Vector2.ONE, 0.35).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	
 	if won:
-		await get_tree().create_timer(0.8).timeout
+		await get_tree().create_timer(0.5).timeout
+		for b in bars:
+			await _animate_row(b)
+		await get_tree().create_timer(0.3).timeout
 		await _confirm_pressed
-		box.hide()
+		dim.hide()
+		panel.hide()
 		await get_tree().create_timer(0.25).timeout
-		await _try_recruit()
-	else:
-		await get_tree().create_timer(1.8).timeout
-
-	finished.emit(won)
-
-	create_tween().tween_property(box, "modulate:a", 1.0, 0.4)
-	if won:
-		await get_tree().create_timer(0.8).timeout
-		while not Input.is_action_just_pressed("ui_accepted"):
-			await get_tree().process_frame
-		box.hide()
-		await get_tree().create_timer(0.25).timeout # so it doesnt gain sentience
 		await _try_recruit()
 	else:
 		await get_tree().create_timer(1.8).timeout
 	finished.emit(won)
 	
-
+func _panel_style() -> StyleBoxFlat:
+	var s := StyleBoxFlat.new()
+	s.bg_color = Color(0.09, 0.11, 0.18, 0.97)
+	s.border_color = Color(0.85, 0.7, 0.35)
+	s.set_border_width_all(3)
+	s.set_corner_radius_all(10)
+	s.set_content_margin_all(24)
+	s.shadow_color = Color(0, 0, 0, 0.5)
+	s.shadow_size = 12
+	return s
+	
+func _build_member_row(r: Dictionary) -> Dictionary:
+	var s: CharacterStats = r["stats"]
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 14)
+	row.modulate.a = 0.0
+	
+	var icon := TextureRect.new()
+	icon.custom_minimum_size = Vector2(56, 56)
+	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icon.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	if s.sprite_frames and s.sprite_frames.has_animation("idle") and s.sprite_frames.get_frame_count("idle") > 0:
+		icon.texture = s.sprite_frames.get_frame_texture("idle", 0)
+	else:
+		icon.texture = s.texture
+	row.add_child(icon)
+	
+	var info := VBoxContainer.new()
+	info.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(info)
+	
+	var name_label := _result_label("%s   Lv %d" % [s.display_name, r["lvl_before"]], 22)
+	name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	info.add_child(name_label)
+	
+	var bar := ProgressBar.new()
+	bar.show_percentage = false
+	bar.custom_minimum_size = Vector2(0, 14)
+	var fill := StyleBoxFlat.new()
+	fill.bg_color = Color(0.95, 0.8, 0.3)
+	fill.set_corner_radius_all(4)
+	var back := StyleBoxFlat.new()
+	back.bg_color = Color(0.05, 0.06, 0.1)
+	back.set_corner_radius_all(4)
+	bar.add_theme_stylebox_override("fill", fill)
+	bar.add_theme_stylebox_override("background", back)
+	bar.max_value = Game.xp_to_next(r["lvl_before"])
+	bar.value = r["xp_before"]
+	info.add_child(bar)
+	
+	var stats_label := _result_label("", 16)
+	stats_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	stats_label.modulate = Color(0.7, 1.0, 0.7)
+	info.add_child(stats_label)
+	
+	return {"node": row, "bar": bar, "name": name_label, "stats": stats_label, "data": r}
+	
+func _animate_row(b: Dictionary) -> void:
+	var row: Control = b["node"]
+	var bar: ProgressBar = b["bar"]
+	var r: Dictionary = b["data"]
+	var s: CharacterStats = r["stats"]
+	var g: Dictionary = r["gain"]
+	create_tween().tween_property(row, "modulate:a", 1.0, 0.2)
+	await get_tree().create_timer(0.2).timeout
+	
+	var lvl: int = r["lvl_before"]
+	for i in g["levels"]:
+		var t := create_tween()
+		t.tween_property(bar, "value", bar.max_value, 0.35)
+		await t.finished
+		lvl += 1
+		(b["name"] as Label).text = "%s   Lv %d" % [s.display_name, lvl]
+		bar.max_value = Game.xp_to_next(lvl)
+		bar.value = 0
+		_flash(row)
+	var t2 := create_tween()
+	t2.tween_property(bar, "value", Game.party_xp.get(s, 0), 0.4)
+	await t2.finished
+	if g["levels"] > 0:
+		(b["stats"] as Label).text = "Level up!   HP +%d   MP +%d   ATK +%d   DEF +%d   MAG +%d" % [
+			g["hp"], g["mp"], g["attack"], g["defense"], g["magic"]]
+	await get_tree().create_timer(0.15).timeout
+	
+func _flash(node: CanvasItem) -> void:
+	var tw := create_tween()
+	tw.tween_property(node, "modulate", Color(1.6, 1.5, 1.0), 0.1)
+	tw.tween_property(node, "modulate", Color.WHITE, 0.25)
+	
 	
 func _callout(actor: Battler, text: String) -> void:
 	var label := Label.new()
