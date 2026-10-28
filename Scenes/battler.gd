@@ -105,6 +105,7 @@ func take_damage(amount: int) -> void:
 		amount = ceili(amount / 2.0)
 	hp = maxi(hp - amount, 0)
 	_show_damage_number(amount)
+	Audio.play("hit")
 	_update_hp_bar()
 	if is_alive():
 		modulate = Color(1, 0.4, 0.4)
@@ -188,6 +189,7 @@ func heal(amount: int) -> void:
 	var gained := mini(amount, stats.max_hp - hp)
 	hp += gained
 	_show_damage_number(gained, Color(0.4, 1.0, 0.5))
+	Audio.play("heal")
 	_update_hp_bar()
 	modulate = Color(0.6, 1.4, 0.7)
 	await get_tree().create_timer(0.3).timeout

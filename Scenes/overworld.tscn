@@ -321,5 +321,6 @@ scale = Vector2(3.5, 3.5)
 texture = ExtResource("12_dd6r4")
 
 [node name="NPC" parent="." instance=ExtResource("14_v8nvt")]
+visible = false
 position = Vector2(111, -172)
 scale = Vector2(4, 4)

@@ -71,6 +71,7 @@ func start_battle(enemies: Array[CharacterStats], background: Texture2D = null) 
 		battle.set_background(background)
 
 	await _transition(1.0, 0.0, 0.7)
+	battle.begin.emit()
 	_transitioning = false
 
 func _on_battle_finished(won: bool, battle: Node) -> void:

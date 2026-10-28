@@ -6,6 +6,7 @@ signal turn_started(battler: Battler)
 signal turn_order_changed(order: Array, next_order: Array)
 signal _recruit_decided(accepted: bool)
 signal _confirm_pressed
+signal begin
 
 
 
@@ -26,6 +27,7 @@ var turn_bar: TurnOrderBar
 var next_order: Array[Battler] = []
 var order: Array[Battler] = []
 var turn_index := 0
+var intro_targets := {}
 
 
 func _ready() -> void:
@@ -45,16 +47,16 @@ func setup(party_stats: Array[CharacterStats], enemy_stats: Array[CharacterStats
 		var b := _spawn(enemy_stats[i], false, Vector2(350, GROUND_Y + i * 90))
 		enemies.append(b)
 		Game.seen[enemy_stats[i].display_name] = true
-	_run_battle()
 	_place_group(party, 900, true)
 	_place_group(enemies, 350)
+	_run_battle()
 	
-func _process(_delta: float) -> void:
-	var t := Time.get_ticks_msec() / 1000.0
-	$Camera2D.position = Vector2(640 + sin(t * 0.4) * 12.0, 360 + cos(t * 0.3) * 4.0)
-	#$Background.scale *= 1.06
-	for b in party + enemies:
-		b.position.x += sin(t * 0.4) * 0.04
+#func _process(_delta: float) -> void:
+	#var t := Time.get_ticks_msec() / 1000.0
+	#$Camera2D.position = Vector2(640 + sin(t * 0.4) * 12.0, 360 + cos(t * 0.3) * 4.0)
+	##$Background.scale *= 1.06
+	#for b in party + enemies:
+		#b.position.x += sin(t * 0.4) * 0.04
 	
 func _punch_camera(amount := 1.06, time := 0.18) -> void:
 	var cam: Camera2D = $Camera2D
@@ -85,7 +87,10 @@ func _place_group(group: Array[Battler], x: float, toward_left := false) -> void
 		_apply_depth(b)
 	
 func _run_battle() -> void:
-	await get_tree().create_timer(0.6).timeout
+	
+	_prepare_intro()
+	await begin
+	await _play_intro()
 	next_order = _roll_order()
 	while true:
 		_tick_statuses()
@@ -138,6 +143,17 @@ func _shift_turn(target: Battler, slots: int) -> void:
 		next_order.insert(j2, target)
 	_announce_order(target)
 	
+func _prepare_intro() -> void:
+	for b in party:
+		intro_targets[b] = b.position
+		b.position.x += 700
+		b.modulate.a = 0.0
+	for b in enemies:
+		intro_targets[b] = b.position
+		b.position.x -= 700
+		b.modulate.a = 0.0
+	turn_bar.modulate.a = 0.0
+	menu.hide()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_accept"):
@@ -211,8 +227,12 @@ func _party_dead() -> bool:
 func _end_battle(won: bool) -> void:
 	var rows: Array = [] 
 	var total_xp := 0
+	#if won:
+		#Audio.stop_music(0.3)
+		#Audio.play_victory()
 	var fallen: Array[String] = []
 	if won:
+		Audio.play("victory")
 		for e in enemies:
 			total_xp += e.stats.xp_reward
 		for p in party:
@@ -365,6 +385,7 @@ func _animate_row(b: Dictionary) -> void:
 		bar.max_value = Game.xp_to_next(lvl)
 		bar.value = 0
 		_flash(row)
+		Audio.play("levelup")
 	var t2 := create_tween()
 	t2.tween_property(bar, "value", Game.party_xp.get(s, 0), 0.4)
 	await t2.finished
@@ -418,6 +439,7 @@ func _use_skill(actor: Battler, action: BattleAction, targets: Array, free_cost 
 		return
 	if not actor.is_player and not free_cost:
 		await _callout(actor, action.display_name)
+	Audio.play("cast")
 		
 	if action.effect_type == BattleAction.EffectType.HEAL:
 		actor.play_anim(action.animation)
@@ -604,5 +626,43 @@ func _recruit_dialog(s: CharacterStats, icon_tex: Texture2D) -> bool:
 	panel.queue_free()
 	return accepted 
 	
+func _play_intro() -> void:
+	await get_tree().create_timer(0.7).timeout
+		
+	var tw := create_tween().set_parallel(true)
+	var delay := 0.0
+	for group in [enemies, party]:
+		for b in group:
+			tw.tween_property(b, "position", intro_targets[b], 0.8).set_delay(delay).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+			tw.tween_property(b, "modulate:a", 1.0, 0.3).set_delay(delay)
+			delay += 0.2
+	await tw.finished
 	
+	for b in party + enemies:
+		var s: AnimatedSprite2D = b.sprite
+		var base: Vector2 = s.scale
+		var bounce := create_tween()
+		bounce.tween_property(s, "scale", Vector2(base.x * 1.08, base.y * 0.92), 0.08)
+		bounce.tween_property(s, "scale", base, 0.12)
+		
+	var banner := _result_label("Battle Start!", 64)
+	banner.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
+	banner.modulate.a = 0.0
+	banner.pivot_offset = Vector2(250, 40)
+	banner.scale = Vector2(1.4, 1.4)
+	$UI.add_child(banner)
+	var bt := create_tween().set_parallel(true)
+	bt.tween_property(banner, "modulate:a", 1.0, 0.2)
+	bt.tween_property(banner, "scale", Vector2.ONE, 0.25).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	await get_tree().create_timer(1.0).timeout
+	var fade := create_tween()
+	fade.tween_property(banner, "modulate:a", 0.0, 0.25)
+	await fade.finished
+	banner.queue_free()
+	Audio.play("confirm")
+	
+	for b in party + enemies:
+		b.position = intro_targets[b]
+		b.modulate.a = 1.0
+	turn_bar.modulate.a = 1.0
 	
