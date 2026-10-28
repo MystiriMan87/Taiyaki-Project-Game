@@ -542,7 +542,7 @@ func _try_recruit() -> void:
 	var candidates: Array[Battler] = []
 	for e in enemies:
 		var s: CharacterStats = e.stats
-		if s.recruitable and not Game.has_member(s.display_name) and randf() < s.recruit_chance:
+		if s.recruitable and (not Game.has_member(s.display_name) or s.evolves_into != null) and randf() < s.recruit_chance:
 			candidates.append(e)
 	if candidates.is_empty():
 		return

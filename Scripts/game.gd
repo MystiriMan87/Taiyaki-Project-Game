@@ -187,3 +187,44 @@ func award_xp(s: CharacterStats, amount: int) -> Dictionary:
 		party_hp[s] = mini(party_hp.get(s, s.max_hp) + gain["hp"], s.max_hp)
 		party_mp[s] = mini(party_mp.get(s, s.max_mp) + gain["mp"], s.max_mp)
 	return gain
+	
+func _members_named(n: String) -> Array[CharacterStats]:
+	var out: Array[CharacterStats] = []
+	for s in reserve:
+		if s.display_name == n and s.evolves_into:
+			out.append(s)
+	for i in range(1, party.size()):
+		if party[i].display_name == n and party[i].evolves_into:
+			out.append(party[i])
+	return out
+	
+func get_merges() -> Array[CharacterStats]:
+	var out: Array[CharacterStats] = []
+	var done := {}
+	for s in reserve + party:
+		if s.evolves_into and not done.has(s.display_name):
+			done[s.display_name] = true
+			if _members_named(s.display_name).size() >= s.evolve_count:
+				out.append(s)
+	return out
+
+func merge(n: String) -> CharacterStats:
+	var pool := _members_named(n)
+	var used := pool.slice(0, pool[0].evolve_count)
+	var result: CharacterStats = pool[0].evolves_into.duplicate()
+	result.is_recruit = true
+	result.recruitable = false
+	var slot := -1
+	for m in used:
+		var i := party.find(m)
+		if i > 0 and slot == -1:
+			slot = i
+	for m in used:
+		remove_member(m)
+	if slot != -1:
+		party.insert(mini(slot, party.size()), result)
+	else:
+		reserve.append(result)
+	party_hp[result] = result.max_hp
+	party_mp[result] = result.max_mp
+	return result

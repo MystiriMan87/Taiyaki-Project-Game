@@ -96,6 +96,9 @@ func _refresh() -> void:
 			e.text = "- empty -"
 			e.disabled = true
 			slot_box.add_child(e)
+	if picking_for == null:
+		for m in Game.get_merges():
+			grid.add_child(_merge_button(m))
 	for r in Game.reserve:
 		grid.add_child(_member_button(r))
 	for sp in Game.get_recruitable_species():
@@ -207,4 +210,35 @@ func _style(bg: Color, border: Color, width: int, margin: int) -> StyleBoxFlat:
 	s.set_content_margin_all(margin)
 	return s
 		
-		
+func _merge_button(m: CharacterStats) -> Button:
+	var t: CharacterStats = m.evolves_into
+	var b := _base_button(t, "Result:\n" + _member_detail(t))
+	b.text = "Merge %d× %s -> %s" % [m.evolve_count, m.display_name, t.display_name]
+	b.modulate = Color(1.0, 0.9, 0.5)
+	b.pressed.connect(_on_merge.bind(m.display_name))
+	return b
+
+func _on_merge(species: String) -> void:
+	var result: CharacterStats = Game.merge(species)
+	dirty = true
+	_refresh()
+	Audio.play("levelup")
+	
+	var fx := TextureRect.new()
+	fx.texture = _icon(result)
+	fx.custom_minimum_size = Vector2(160, 160)
+	fx.size = Vector2(160, 160)
+	fx.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	fx.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	fx.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	fx.pivot_offset = Vector2(80, 80)
+	fx.position = get_viewport().get_visible_rect().size / 2.0 - Vector2(80, 80)
+	fx.scale = Vector2(0.2, 0.2)
+	fx.modulate = Color(4, 4, 4, 1)
+	add_child(fx)
+	var tw := create_tween().set_parallel(true)
+	tw.tween_property(fx, "scale", Vector2(1.4, 1.4), 0.4).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.tween_property(fx, "modulate", Color.WHITE, 0.4)
+	tw.chain().tween_interval(0.5)
+	tw.chain().tween_property(fx, "modulate:a", 0.0, 0.3)
+	tw.chain().tween_callback(fx.queue_free)	

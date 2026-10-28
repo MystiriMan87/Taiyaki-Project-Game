@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CharacterStats" load_steps=6 format=3 uid="uid://buoophptvcguj"]
+
+[ext_resource type="Script" uid="uid://dd50utfwvmokr" path="res://Scripts/battle_action.gd" id="1_irrr4"]
+[ext_resource type="Resource" uid="uid://cmyauyu3fbmjs" path="res://Data/orc/spear_thrust.tres" id="2_5gfy2"]
+[ext_resource type="Resource" uid="uid://b87v36nsstg4k" path="res://Data/orc/elite_orc.tres" id="3_5gfy2"]
+[ext_resource type="SpriteFrames" uid="uid://comg5ij28k6fv" path="res://Data/orc/armored_orc_frames.tres" id="4_gvulr"]
+[ext_resource type="Script" uid="uid://dqvwo37xxrj4g" path="res://Scripts/character_stats.gd" id="4_ibfq7"]
+
+[resource]
+script = ExtResource("4_ibfq7")
+display_name = "Armored Orc"
+max_hp = 60
+attack = 15
+defense = 7
+sprite_frames = ExtResource("4_gvulr")
+battle_scale = 4.0
+hp_bar_offset = 40.0
+actions = Array[ExtResource("1_irrr4")]([ExtResource("2_5gfy2")])
+overworld_frames = ExtResource("4_gvulr")
+evolves_into = ExtResource("3_5gfy2")
+evolve_count = 3
+metadata/_custom_type_script = "uid://dqvwo37xxrj4g"

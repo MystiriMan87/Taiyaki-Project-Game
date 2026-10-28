@@ -34,3 +34,7 @@ var is_recruit := false
 @export var recruitable := false
 @export_range(0.0, 1.0) var recruit_chance := 0.25
 @export_multiline var recruit_line := "You fight well. I want to join"
+
+@export_group("Merging")
+@export var evolves_into: CharacterStats
+@export var evolve_count := 2

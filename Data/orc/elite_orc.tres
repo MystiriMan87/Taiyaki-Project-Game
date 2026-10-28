@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CharacterStats" load_steps=5 format=3 uid="uid://b87v36nsstg4k"]
+
+[ext_resource type="Script" uid="uid://dd50utfwvmokr" path="res://Scripts/battle_action.gd" id="1_76shx"]
+[ext_resource type="Resource" uid="uid://cjdssgyg5c2nm" path="res://Data/orc/felling_swing.tres" id="2_jepii"]
+[ext_resource type="SpriteFrames" uid="uid://c6a85gblk6q7r" path="res://Data/orc/orc_frames.tres" id="3_utyxi"]
+[ext_resource type="Script" uid="uid://dqvwo37xxrj4g" path="res://Scripts/character_stats.gd" id="4_vcf0q"]
+
+[resource]
+script = ExtResource("4_vcf0q")
+display_name = "Orc"
+max_hp = 50
+sprite_frames = ExtResource("3_utyxi")
+battle_scale = 4.0
+hp_bar_offset = 40.0
+actions = Array[ExtResource("1_76shx")]([ExtResource("2_jepii")])
+overworld_frames = ExtResource("3_utyxi")
+evolve_count = 3
+metadata/_custom_type_script = "uid://dqvwo37xxrj4g"
