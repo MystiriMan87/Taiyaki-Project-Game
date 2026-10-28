@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CharacterStats" load_steps=5 format=3 uid="uid://b888wbfo4784l"]
+
+[ext_resource type="Script" uid="uid://dd50utfwvmokr" path="res://Scripts/battle_action.gd" id="1_f7jlo"]
+[ext_resource type="Resource" uid="uid://hcxwtqo03dfb" path="res://Data/skeleton/axe_swing.tres" id="2_f7jlo"]
+[ext_resource type="SpriteFrames" uid="uid://cvlci4bqia78v" path="res://Data/skeleton/armored_skeleton_frames.tres" id="3_f7jlo"]
+[ext_resource type="Script" uid="uid://dqvwo37xxrj4g" path="res://Scripts/character_stats.gd" id="3_wuxsx"]
+
+[resource]
+script = ExtResource("3_wuxsx")
+display_name = "Armored Skeleton"
+max_hp = 70
+attack = 15
+defense = 6
+sprite_frames = ExtResource("3_f7jlo")
+battle_scale = 4.4
+hp_bar_offset = 40.0
+actions = Array[ExtResource("1_f7jlo")]([ExtResource("2_f7jlo")])
+footprint_height = 100.0
+overworld_frames = ExtResource("3_f7jlo")
+metadata/_custom_type_script = "uid://dqvwo37xxrj4g"

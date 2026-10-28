@@ -42,8 +42,8 @@ position = Vector2(229, 113)
 y_sort_enabled = true
 position = Vector2(-147, 190)
 scale = Vector2(4, 4)
-stats = ExtResource("4_hf0oe")
-extra_pool = Array[ExtResource("3_rmeny")]([ExtResource("5_2ngsa"), ExtResource("8_c0h7r")])
+stats = ExtResource("5_2ngsa")
+extra_pool = Array[ExtResource("3_rmeny")]([ExtResource("5_2ngsa")])
 battle_backgrounds = Array[Texture2D]([ExtResource("9_auytq")])
 chase_range = 150.0
 
@@ -128,7 +128,7 @@ offset_left = -1906.0
 offset_top = -1543.0
 offset_right = 3310.0
 offset_bottom = 1908.0
-color = Color(3.5616756e-06, 0.681127, 0.68131113, 1)
+color = Color(1.732707e-06, 0.8088838, 0.8088833, 1)
 
 [node name="Tree" parent="." instance=ExtResource("11_v1c68")]
 position = Vector2(1111, -7.0000153)
