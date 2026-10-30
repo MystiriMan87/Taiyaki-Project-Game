@@ -6,6 +6,7 @@
 script = ExtResource("1_d6yiq")
 display_name = "Fire Slash"
 mp_cost = 6
+power = 100.0
 animation = "fire_attack"
 target_type = 1
 damage_type = 1

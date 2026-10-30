@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=4 uid="uid://cpx7gy7r8afis"]
+[gd_scene load_steps=20 format=4 uid="uid://cpx7gy7r8afis"]
 
 [ext_resource type="Script" uid="uid://cj0jantgygn2y" path="res://Scripts/overworld.gd" id="1_i8gr5"]
 [ext_resource type="TileSet" uid="uid://b3fq3bvisrspb" path="res://overworld.tres" id="2_c0h7r"]
@@ -19,13 +19,20 @@
 [sub_resource type="Resource" id="Resource_w7v6x"]
 script = ExtResource("15_5dcxx")
 requires_flag = "quest_done"
-lines = Array[String](["“Thank you again, traveler!”"])
+lines = Array[String](["You did it!"])
 metadata/_custom_type_script = "uid://d080kxgy27rss"
 
 [sub_resource type="Resource" id="Resource_gy7g8"]
 script = ExtResource("15_5dcxx")
 requires_flag = "quest_accepted"
 lines = Array[String](["“Any luck with the merging??”"])
+metadata/_custom_type_script = "uid://d080kxgy27rss"
+
+[sub_resource type="Resource" id="Resource_5dcxx"]
+script = ExtResource("15_5dcxx")
+requires_flag = "has_merged"
+lines = Array[String](["“You’ve already merged monsters? Impressive!”"])
+set_flag = "quest_done"
 metadata/_custom_type_script = "uid://d080kxgy27rss"
 
 [sub_resource type="Resource" id="Resource_46gqp"]
@@ -343,4 +350,4 @@ texture = ExtResource("12_dd6r4")
 [node name="NPC" parent="." instance=ExtResource("14_v8nvt")]
 position = Vector2(111, -172)
 scale = Vector2(4, 4)
-dialogues = Array[ExtResource("15_5dcxx")]([SubResource("Resource_w7v6x"), SubResource("Resource_gy7g8"), SubResource("Resource_46gqp")])
+dialogues = Array[ExtResource("15_5dcxx")]([SubResource("Resource_w7v6x"), SubResource("Resource_gy7g8"), SubResource("Resource_5dcxx"), SubResource("Resource_46gqp")])

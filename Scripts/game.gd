@@ -229,4 +229,7 @@ func merge(n: String) -> CharacterStats:
 		reserve.append(result)
 	party_hp[result] = result.max_hp
 	party_mp[result] = result.max_mp
+	flags["has_mergred"] = true
+	if flags.get("quest_accepted", false):
+		flags["quest_done"] = true
 	return result

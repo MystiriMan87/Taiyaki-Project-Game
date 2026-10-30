@@ -13,6 +13,7 @@ speed = 12
 sprite_frames = ExtResource("2_sfurx")
 battle_scale = 4.5
 hp_bar_offset = 45.0
+max_mp = 100
 actions = Array[ExtResource("1_tpuqn")]([ExtResource("2_gt8d5"), ExtResource("3_xt4pn"), ExtResource("4_xt4pn")])
 footprint_height = 90.0
 hp_growth = 14
