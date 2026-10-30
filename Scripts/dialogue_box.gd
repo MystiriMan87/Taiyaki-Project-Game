@@ -16,6 +16,11 @@ var opened_msec := 0
 var last_closed_msec := -1000
 var tween: Tween
 
+var choices: Array[String] = []
+var choosing := false
+var last_choice := -1
+var buttons: HBoxContainer
+
 func _init() -> void:
 	layer = 60
 	process_mode = Node.PROCESS_MODE_ALWAYS   # keeps working while the map is paused
@@ -66,11 +71,18 @@ func _init() -> void:
 	arrow.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	arrow.modulate = Color(1, 0.9, 0.5)
 	col.add_child(arrow)
+	
+	buttons = HBoxContainer.new()
+	buttons.add_theme_constant_override("separation", 12)
+	buttons.hide()
+	col.add_child(buttons)
 
-func start(speaker: String, portrait: Texture2D, new_lines: Array[String]) -> void:
+func start(speaker: String, portrait: Texture2D, new_lines: Array[String], new_choices: Array[String] = []) -> void:
 	if active or new_lines.is_empty():
 		return
 	lines = new_lines
+	choices = new_choices
+	last_choice = -1
 	index = 0
 	name_label.text = speaker
 	icon.texture = portrait
@@ -97,7 +109,7 @@ func _on_typed() -> void:
 	arrow.show()
 
 func _unhandled_input(event: InputEvent) -> void:
-	if not active:
+	if not active or choosing:
 		return
 	if event.is_action_pressed("ui_accept"):
 		get_viewport().set_input_as_handled()
@@ -114,10 +126,12 @@ func _advance() -> void:
 		_on_typed()
 		return
 	index += 1
-	if index >= lines.size():
+	if index < lines.size():
+		_show_line()
+	elif choices.is_empty():
 		_close()
 	else:
-		_show_line()
+		_show_choices()
 
 func _close() -> void:
 	active = false
@@ -125,3 +139,22 @@ func _close() -> void:
 	last_closed_msec = Time.get_ticks_msec()
 	get_tree().paused = false
 	finished.emit()
+
+func _show_choices() -> void:
+	choosing = true
+	arrow.hide()
+	for i in choices.size():
+		var b := Button.new()
+		b.text = choices[i]
+		b.pressed.connect(_pick.bind(i))
+		buttons.add_child(b)
+	buttons.show()
+	buttons.get_child(0).grab_focus()
+
+func _pick(i: int) -> void:
+	last_choice = i
+	choosing = false
+	buttons.hide()
+	for b in buttons.get_children():
+		b.queue_free()
+	_close()

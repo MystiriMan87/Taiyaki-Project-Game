@@ -9,6 +9,8 @@ extends StaticBody2D
 @export var repeat_lines: Array[String] = []
 @export var heals_party := false
 
+@export var dialogues: Array[Dialogue] = []
+
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var zone: Area2D = $InteractArea
 
@@ -64,13 +66,19 @@ func _talk() -> void:
 	_face_player()
 	prompt.hide()
 	
-	var chosen: Array[String] = lines
-	if talked and not repeat_lines.is_empty():
-		chosen = repeat_lines
-	talked = true
-	
-	box.start(npc_name, _portrait(), chosen)
+	var d: Dialogue = null
+	for entry in dialogues:
+		if entry != null and entry.is_available():
+			d = entry
+			break
+	if d == null:
+		prompt.show()
+		return
+		
+	box.start(npc_name, _portrait(), d.lines, d.choices)
 	await box.finished
+	d.apply(box.last_choice)
+	
 	if heals_party:
 		Game.heal_party()
 	if player != null:

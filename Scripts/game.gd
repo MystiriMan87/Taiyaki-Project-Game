@@ -23,6 +23,8 @@ var reserve: Array[CharacterStats] = []
 var seen: Dictionary = {}
 var _species_cache: Array[CharacterStats] = []
 
+var flags: Dictionary = {}
+
 
 func _ready() -> void:
 	_fx_layer = CanvasLayer.new()
