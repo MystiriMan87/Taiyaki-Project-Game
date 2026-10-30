@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="CharacterStats" load_steps=5 format=3 uid="uid://b888wbfo4784l"]
+[gd_resource type="Resource" script_class="CharacterStats" load_steps=6 format=3 uid="uid://b888wbfo4784l"]
 
 [ext_resource type="Script" uid="uid://dd50utfwvmokr" path="res://Scripts/battle_action.gd" id="1_f7jlo"]
 [ext_resource type="Resource" uid="uid://hcxwtqo03dfb" path="res://Data/skeleton/axe_swing.tres" id="2_f7jlo"]
+[ext_resource type="Resource" uid="uid://calvps0bu2fc2" path="res://Data/greatsword_skeleton/greatsword_skeleton.tres" id="3_dxhbt"]
 [ext_resource type="SpriteFrames" uid="uid://cvlci4bqia78v" path="res://Data/skeleton/armored_skeleton_frames.tres" id="3_f7jlo"]
 [ext_resource type="Script" uid="uid://dqvwo37xxrj4g" path="res://Scripts/character_stats.gd" id="3_wuxsx"]
 
@@ -17,4 +18,5 @@ hp_bar_offset = 40.0
 actions = Array[ExtResource("1_f7jlo")]([ExtResource("2_f7jlo")])
 footprint_height = 100.0
 overworld_frames = ExtResource("3_f7jlo")
+evolves_into = ExtResource("3_dxhbt")
 metadata/_custom_type_script = "uid://dqvwo37xxrj4g"
