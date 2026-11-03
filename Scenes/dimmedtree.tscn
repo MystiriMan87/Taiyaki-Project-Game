@@ -1,0 +1,43 @@
+[gd_scene load_steps=6 format=3 uid="uid://1ng0w05m05ek"]
+
+[ext_resource type="Script" uid="uid://dcjg4udiux0wo" path="res://Scripts/tree_sway.gd" id="1_mb2wr"]
+[ext_resource type="Texture2D" uid="uid://b0ntbxa5ignoq" path="res://Art/dark_tree_shadow.png" id="2_0gfx7"]
+[ext_resource type="Script" uid="uid://dtywp6c4xe44d" path="res://Scripts/leaf_drift.gd" id="3_mknr5"]
+[ext_resource type="Texture2D" uid="uid://dwqvdsgamcd6e" path="res://Art/dimmedtree_16x16_layered-Sheet.png" id="3_tflxy"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rsuno"]
+radius = 4.0
+
+[node name="Tree" type="Node2D"]
+script = ExtResource("1_mb2wr")
+
+[node name="DarkTreeShadow" type="Sprite2D" parent="."]
+z_index = -5
+position = Vector2(4, 12)
+scale = Vector2(4.1, 4.1)
+texture = ExtResource("2_0gfx7")
+
+[node name="Trunk" type="Sprite2D" parent="."]
+z_index = -2
+scale = Vector2(4, 4)
+texture = ExtResource("3_tflxy")
+region_enabled = true
+region_rect = Rect2(0, 0, 32, 32)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Trunk"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Trunk/StaticBody2D"]
+position = Vector2(0.25, 14.25)
+shape = SubResource("CircleShape2D_rsuno")
+
+[node name="Leavessprite" type="Sprite2D" parent="."]
+z_index = 10
+position = Vector2(0, -12)
+scale = Vector2(4.1, 4.1)
+texture = ExtResource("3_tflxy")
+region_enabled = true
+region_rect = Rect2(0, 32, 32, 26)
+
+[node name="Leaves" type="GPUParticles2D" parent="."]
+script = ExtResource("3_mknr5")
+leaf_color = Color(0.25490198, 0.36862746, 0.33333334, 1)
