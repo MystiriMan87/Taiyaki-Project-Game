@@ -21,7 +21,8 @@ func _ready() -> void:
 		_pool.append(p)
 	_music_a = _make_music_player()
 	_music_b = _make_music_player()
-	get_tree().node_added.connect(_on_node_added)  
+	get_tree().node_added.connect(_on_node_added) 
+	_hook_existing(get_tree().root) 
 	
 
 func _on_node_added(n: Node) -> void:
@@ -35,7 +36,8 @@ func _ensure_buses() -> void:
 			AudioServer.add_bus()
 			var idx := AudioServer.bus_count - 1
 			AudioServer.set_bus_name(idx, bus_name)
-			AudioServer.set_bus_name(idx, "Master")
+			AudioServer.set_bus_send(idx, "Master")
+			print("buses: Music=", AudioServer.get_bus_index("Music"), " SFX=", AudioServer.get_bus_index("SFX"))
 			
 func _make_music_player() -> AudioStreamPlayer:
 	var p := AudioStreamPlayer.new()
@@ -99,9 +101,8 @@ func stop_music(fade := 1.0) -> void:
 			
 func set_volume(bus_name: String, linear: float) -> void:
 	var idx := AudioServer.get_bus_index(bus_name)
+	print("set_volume ", bus_name, " idx=", idx, " value=", linear)
 	AudioServer.set_bus_volume_db(idx, linear_to_db(clampf(linear, 0.0, 1.0)))
-	
-
 #func play_victory() -> void:
 	#var stream := _find(MUSIC_DIR, "victory")
 	#if stream == null:
@@ -112,3 +113,8 @@ func set_volume(bus_name: String, linear: float) -> void:
 	#add_child(p)
 	#p.play()
 	#p.finished.connect(p.queue_free)
+	
+func _hook_existing(node: Node) -> void:
+	for c in node.get_children():
+		_on_node_added(c)
+		_hook_existing(c)

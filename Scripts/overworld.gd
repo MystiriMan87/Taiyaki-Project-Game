@@ -3,6 +3,7 @@ extends Node2D
 var party_menu: PartyMenu
 var roster_menu: RosterMenu
 var dialogue_box: DialogueBox
+var pause_menu
 
 func _ready() -> void:
 	Game.overworld = self
@@ -16,19 +17,25 @@ func _ready() -> void:
 	add_child(roster_menu)
 	dialogue_box = DialogueBox.new()
 	add_child(dialogue_box)
+	pause_menu = preload("res://Scenes/PauseMenu.tscn").instantiate()
+	add_child(pause_menu)
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventKey and event.pressed and event.keycode == KEY_H:
-		Game.heal_party()
-		print("Party Healed")
-	var is_tab: bool = event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_TAB
-	if (event.is_action_pressed("ui_cancel") or is_tab) and not party_menu.visible and not Game._transitioning:
+	if get_tree().paused or Game._transitioning or dialogue_box.active:
+		return
+	if not (event is InputEventKey and event.pressed and not event.echo) and not event.is_action_pressed("ui_cancel"):
+		return
+	if event.is_action_pressed("ui_cancel"):
+		pause_menu.open()
+	elif event.keycode == KEY_TAB:
 		party_menu.open()
-		get_viewport().set_input_as_handled()
-	var is_r: bool = event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_R
-	if is_r and not roster_menu.visible and not party_menu.visible and not Game._transitioning:
+	elif event.keycode == KEY_R:
 		roster_menu.open()
-		get_viewport().set_input_as_handled()
+	elif event.keycode == KEY_H:
+		Game.heal_party()
+	else:
+		return
+	get_viewport().set_input_as_handled()
 
 func _spawn_followers() -> void:
 	var player_node: Node2D = $Player

@@ -1,0 +1,71 @@
+[gd_scene load_steps=4 format=3 uid="uid://cfn04vj488iom"]
+
+[ext_resource type="PackedScene" uid="uid://d3b0wm6x2yrt8" path="res://Scenes/SettingsMenu.tscn" id="1_28flt"]
+[ext_resource type="Script" uid="uid://cpgdbia1loy8b" path="res://Scripts/main_menu.gd" id="1_48xlc"]
+[ext_resource type="Script" uid="uid://ku2q0vp4jy8v" path="res://Scenes/bouncing_title.gd" id="2_1ehe0"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_48xlc")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(9.62615e-08, 0.3425137, 0.24088323, 1)
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 1
+offset_left = 276.0
+offset_top = 300.0
+offset_right = 383.0
+offset_bottom = 323.0
+theme_override_font_sizes/font_size = 54
+text = "Unkown yet"
+uppercase = true
+script = ExtResource("2_1ehe0")
+
+[node name="Center" type="CenterContainer" parent="."]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -107.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="Buttons" type="VBoxContainer" parent="Center"]
+custom_minimum_size = Vector2(150, 50)
+layout_mode = 2
+theme_override_constants/separation = 42
+
+[node name="Play" type="Button" parent="Center/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Play"
+
+[node name="Settings" type="Button" parent="Center/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Settings
+"
+
+[node name="Quit" type="Button" parent="Center/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Quit
+"
+
+[node name="SettingsMenu" parent="." instance=ExtResource("1_28flt")]
+visible = false
+layout_mode = 1

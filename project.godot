@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Taiyaki project game"
-run/main_scene="uid://cpx7gy7r8afis"
+run/main_scene="uid://cfn04vj488iom"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://icon.svg"
 
@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 Game="*res://Scripts/game.gd"
 Audio="*res://Scripts/audio.gd"
+SceneFade="*res://Scripts/scene_fade.gd"
 
 [display]
 
