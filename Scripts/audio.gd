@@ -32,7 +32,6 @@ func _on_node_added(n: Node) -> void:
 		
 func _ensure_buses() -> void:
 	for bus_name in ["Music", "SFX"]:
-		if AudioServer.get_bus_index(bus_name) == -1:
 			AudioServer.add_bus()
 			var idx := AudioServer.bus_count - 1
 			AudioServer.set_bus_name(idx, bus_name)

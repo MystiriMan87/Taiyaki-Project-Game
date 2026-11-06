@@ -16,7 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://1ng0w05m05ek" path="res://Scenes/dimmedtree.tscn" id="14_gy7g8"]
 [ext_resource type="PackedScene" uid="uid://dq2jr7d8wyjqs" path="res://Scenes/npc.tscn" id="14_v8nvt"]
 [ext_resource type="Script" uid="uid://d080kxgy27rss" path="res://Scripts/dialogue.gd" id="15_5dcxx"]
-[ext_resource type="Script" uid="uid://rd7xslje58wy" path="res://Scripts/fog_zone.gd" id="16_w7v6x"]
+[ext_resource type="Script" uid="uid://rd7xslje58wy" path="res://Scripts/fog_zone.gd" id="17_gy7g8"]
 
 [sub_resource type="Resource" id="Resource_w7v6x"]
 script = ExtResource("15_5dcxx")
@@ -144,7 +144,7 @@ chase_range = 150.0
 
 [node name="OverworldEnemy3" parent="." instance=ExtResource("4_2ngsa")]
 y_sort_enabled = true
-position = Vector2(561, 220)
+position = Vector2(561, 215)
 scale = Vector2(4, 4)
 stats = ExtResource("5_2ngsa")
 extra_pool = Array[ExtResource("3_rmeny")]([ExtResource("4_hf0oe"), ExtResource("8_c0h7r")])
@@ -403,10 +403,8 @@ scale = Vector2(4, 4)
 dialogues = Array[ExtResource("15_5dcxx")]([SubResource("Resource_w7v6x"), SubResource("Resource_gy7g8"), SubResource("Resource_5dcxx"), SubResource("Resource_46gqp")])
 
 [node name="Area2D" type="Area2D" parent="."]
-visible = false
 position = Vector2(-1385, 173)
-script = ExtResource("16_w7v6x")
-clear_radius = 0.15
+script = ExtResource("17_gy7g8")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(199.5, 5)
