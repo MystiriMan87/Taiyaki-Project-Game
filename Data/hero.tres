@@ -9,6 +9,7 @@
 
 [resource]
 script = ExtResource("1_8k3yn")
+attack = 100
 speed = 12
 sprite_frames = ExtResource("2_sfurx")
 battle_scale = 4.5

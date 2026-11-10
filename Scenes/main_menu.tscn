@@ -20,7 +20,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(9.62615e-08, 0.3425137, 0.24088323, 1)
+color = Color(0.14612618, 0.32345703, 0.27973574, 1)
 
 [node name="Title" type="Label" parent="."]
 layout_mode = 1
@@ -29,7 +29,7 @@ offset_top = 300.0
 offset_right = 383.0
 offset_bottom = 323.0
 theme_override_font_sizes/font_size = 54
-text = "Unkown yet"
+text = "Feed the fog"
 uppercase = true
 script = ExtResource("2_1ehe0")
 

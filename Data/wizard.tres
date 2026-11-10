@@ -15,7 +15,7 @@
 script = ExtResource("2_1xj8i")
 display_name = "Wizard"
 max_hp = 70
-attack = 5
+attack = 100
 defense = 3
 speed = 9
 sprite_frames = ExtResource("5_h5h7v")
