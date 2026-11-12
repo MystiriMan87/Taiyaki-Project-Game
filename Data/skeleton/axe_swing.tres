@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="BattleAction" load_steps=2 format=3 uid="uid://hcxwtqo03dfb"]
+
+[ext_resource type="Script" uid="uid://dd50utfwvmokr" path="res://Scripts/battle_action.gd" id="1_ji73f"]
+
+[resource]
+script = ExtResource("1_ji73f")
+display_name = "Axe Swing"
+power = 2.0
+animation = "axe_swing"
+target_type = 1
+metadata/_custom_type_script = "uid://dd50utfwvmokr"

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="BattleAction" load_steps=3 format=3 uid="uid://df664pd2hfleq"]
+
+[ext_resource type="SpriteFrames" uid="uid://cntctwdogvuxa" path="res://Data/fireball_flames.tres" id="1_8mg5h"]
+[ext_resource type="Script" uid="uid://dd50utfwvmokr" path="res://Scripts/battle_action.gd" id="1_a3hhg"]
+
+[resource]
+script = ExtResource("1_a3hhg")
+display_name = "FireBall"
+mp_cost = 6
+power = 2.0
+animation = "fire_attack"
+damage_type = 1
+projectile_frames = ExtResource("1_8mg5h")
+projectile_scale = 4.0
+metadata/_custom_type_script = "uid://dd50utfwvmokr"

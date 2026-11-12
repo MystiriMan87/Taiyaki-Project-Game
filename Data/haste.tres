@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="BattleAction" load_steps=2 format=3 uid="uid://b6t6vs5s3n576"]
+
+[ext_resource type="Script" uid="uid://dd50utfwvmokr" path="res://Scripts/battle_action.gd" id="1_ej4kd"]
+
+[resource]
+script = ExtResource("1_ej4kd")
+turn_effect = 3
+speed_factor = 1.6
+display_name = "Haste"
+mp_cost = 6
+animation = "cast_heal"
+target_type = 2
+effect_type = 2
+metadata/_custom_type_script = "uid://dd50utfwvmokr"

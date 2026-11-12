@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="BattleAction" load_steps=2 format=3 uid="uid://bjhmru255vsmf"]
+
+[ext_resource type="Script" uid="uid://dd50utfwvmokr" path="res://Scripts/battle_action.gd" id="1_csmyl"]
+
+[resource]
+script = ExtResource("1_csmyl")
+display_name = "Slime Strike"
+animation = "slime_strike"
+metadata/_custom_type_script = "uid://dd50utfwvmokr"

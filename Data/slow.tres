@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="BattleAction" load_steps=2 format=3 uid="uid://djwgy88htlbcy"]
+
+[ext_resource type="Script" uid="uid://dd50utfwvmokr" path="res://Scripts/battle_action.gd" id="1_uhvsg"]
+
+[resource]
+script = ExtResource("1_uhvsg")
+turn_effect = 3
+speed_factor = 0.5
+display_name = "Slow"
+mp_cost = 6
+animation = "cast_heal"
+effect_type = 2
+metadata/_custom_type_script = "uid://dd50utfwvmokr"

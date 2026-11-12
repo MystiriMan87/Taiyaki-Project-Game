@@ -1,0 +1,57 @@
+[gd_scene load_steps=3 format=3 uid="uid://kktci5x27hx8"]
+
+[ext_resource type="Script" uid="uid://cg6hyhnac02wa" path="res://Scripts/pause_menu.gd" id="1_qwhev"]
+[ext_resource type="PackedScene" uid="uid://d3b0wm6x2yrt8" path="res://Scenes/SettingsMenu.tscn" id="2_5w4ur"]
+
+[node name="PauseMenu" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_qwhev")
+
+[node name="DIm" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.16745102, 0.16745102, 0.16745102, 1)
+
+[node name="Center" type="CenterContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Buttons" type="VBoxContainer" parent="Center"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="Center/Buttons"]
+layout_mode = 2
+text = "Paused"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Resume" type="Button" parent="Center/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Resume"
+
+[node name="Party" type="Button" parent="Center/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Party"
+
+[node name="Settings" type="Button" parent="Center/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Settings"
+
+[node name="QuitToMenu" type="Button" parent="Center/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Quit"
+
+[node name="SettingsMenu" parent="." instance=ExtResource("2_5w4ur")]
+visible = false

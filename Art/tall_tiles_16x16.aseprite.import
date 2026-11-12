@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://dprkowxd4qcjq"
+path="res://.godot/imported/tall_tiles_16x16.aseprite-fda9717057fb05fb6386ac285be6d6b0.res"
+
+[deps]
+
+source_file="res://Art/tall_tiles_16x16.aseprite"
+dest_files=["res://.godot/imported/tall_tiles_16x16.aseprite-fda9717057fb05fb6386ac285be6d6b0.res"]
+
+[params]
+

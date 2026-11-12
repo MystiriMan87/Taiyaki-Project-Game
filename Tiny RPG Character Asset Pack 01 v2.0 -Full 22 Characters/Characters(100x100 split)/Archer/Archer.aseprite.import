@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://8qohxbjo6d67"
+path="res://.godot/imported/Archer.aseprite-7b740f8033d98004b8ef819b65c0e660.res"
+
+[deps]
+
+source_file="res://Tiny RPG Character Asset Pack 01 v2.0 -Full 22 Characters/Characters(100x100 split)/Archer/Archer.aseprite"
+dest_files=["res://.godot/imported/Archer.aseprite-7b740f8033d98004b8ef819b65c0e660.res"]
+
+[params]
+

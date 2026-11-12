@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=3 uid="uid://ba5cu3y3ol05a"]
+
+[ext_resource type="Script" uid="uid://byvdwrvlir4o6" path="res://Scripts/battle.gd" id="1_w7k78"]
+[ext_resource type="Texture2D" uid="uid://cl8g80pv8eugy" path="res://Art/PC _ Computer - Final Fantasy II (Pixel Remaster) - Battle - Battle Backgrounds (1).png" id="2_1ruyk"]
+[ext_resource type="Script" uid="uid://c2mv27sihys65" path="res://Scripts/command_menu.gd" id="2_oxf17"]
+
+[node name="Battle" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_w7k78")
+
+[node name="Background" type="Sprite2D" parent="."]
+z_index = -10
+position = Vector2(641.50006, 356.50003)
+scale = Vector2(2.7182202, 3.1125546)
+texture = ExtResource("2_1ruyk")
+
+[node name="Party_Enemies" type="Node2D" parent="."]
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="CommandMenu" type="VBoxContainer" parent="UI"]
+offset_left = 277.0
+offset_top = 562.0
+offset_right = 1006.0
+offset_bottom = 653.0
+script = ExtResource("2_oxf17")
+
+[node name="AttackButton" type="Button" parent="UI/CommandMenu"]
+layout_mode = 2
+text = "Attack"
+
+[node name="DefendButton" type="Button" parent="UI/CommandMenu"]
+layout_mode = 2
+text = "Defend"
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(640, 360)

@@ -1,0 +1,81 @@
+[gd_resource type="SpriteFrames" load_steps=12 format=3 uid="uid://dtgbeecdkuy31"]
+
+[ext_resource type="Texture2D" uid="uid://doyw0goj28s1f" path="res://Tiny RPG Character Asset Pack 01 v2.0 -Full 22 Characters/Characters(100x100 split)/Wizard/Wizard with shadows/Wizard_Attack01_Effect.png" id="1_vk8dw"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w0ak4"]
+atlas = ExtResource("1_vk8dw")
+region = Rect2(0, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ub2o1"]
+atlas = ExtResource("1_vk8dw")
+region = Rect2(100, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hlocc"]
+atlas = ExtResource("1_vk8dw")
+region = Rect2(200, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l25e6"]
+atlas = ExtResource("1_vk8dw")
+region = Rect2(300, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_scjtv"]
+atlas = ExtResource("1_vk8dw")
+region = Rect2(400, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6emti"]
+atlas = ExtResource("1_vk8dw")
+region = Rect2(500, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6f3ng"]
+atlas = ExtResource("1_vk8dw")
+region = Rect2(600, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_57vuj"]
+atlas = ExtResource("1_vk8dw")
+region = Rect2(700, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_46k82"]
+atlas = ExtResource("1_vk8dw")
+region = Rect2(800, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cuwy7"]
+atlas = ExtResource("1_vk8dw")
+region = Rect2(900, 0, 100, 100)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w0ak4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ub2o1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hlocc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l25e6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_scjtv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6emti")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6f3ng")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_57vuj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_46k82")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cuwy7")
+}],
+"loop": true,
+"name": &"fly",
+"speed": 9.0
+}]

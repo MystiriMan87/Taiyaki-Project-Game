@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="BattleAction" load_steps=2 format=3 uid="uid://b2qtdxb5m6ibp"]
+
+[ext_resource type="Script" uid="uid://dd50utfwvmokr" path="res://Scripts/battle_action.gd" id="1_jnu4a"]
+
+[resource]
+script = ExtResource("1_jnu4a")
+turn_effect = 2
+speed_factor = 0.0
+display_name = "Quicken"
+mp_cost = 6
+power = 0.0
+animation = "cast_heal"
+target_type = 2
+effect_type = 2
+metadata/_custom_type_script = "uid://dd50utfwvmokr"

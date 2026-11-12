@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CharacterStats" load_steps=5 format=3 uid="uid://f5r8uj05wyun"]
+
+[ext_resource type="Script" uid="uid://dd50utfwvmokr" path="res://Scripts/battle_action.gd" id="1_631vh"]
+[ext_resource type="Script" uid="uid://dqvwo37xxrj4g" path="res://Scripts/character_stats.gd" id="1_rg8ur"]
+[ext_resource type="Resource" uid="uid://bjhmru255vsmf" path="res://Data/slime/slime_strike.tres" id="2_141m2"]
+[ext_resource type="SpriteFrames" uid="uid://bivbdm7gdstrg" path="res://Data/slime/slime_frames.tres" id="3_141m2"]
+
+[resource]
+script = ExtResource("1_rg8ur")
+display_name = "Slime"
+max_hp = 40
+speed = 8
+sprite_frames = ExtResource("3_141m2")
+battle_scale = 4.5
+hp_bar_offset = 40.0
+actions = Array[ExtResource("1_631vh")]([ExtResource("2_141m2")])
+footprint_height = 100.0
+xp_reward = 200
+recruitable = true
+recruit_chance = 1.0
+metadata/_custom_type_script = "uid://dqvwo37xxrj4g"

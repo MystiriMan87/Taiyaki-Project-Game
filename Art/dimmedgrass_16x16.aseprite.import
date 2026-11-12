@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://e32fqfwjdl5v"
+path="res://.godot/imported/dimmedgrass_16x16.aseprite-3fd97891f799df1fc8d4114783c6be50.res"
+
+[deps]
+
+source_file="res://Art/dimmedgrass_16x16.aseprite"
+dest_files=["res://.godot/imported/dimmedgrass_16x16.aseprite-3fd97891f799df1fc8d4114783c6be50.res"]
+
+[params]
+

@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://77nda01jpinn"
+path="res://.godot/imported/Knight.aseprite-bb9a52d0cc42afaf0706d241a1bd300c.res"
+
+[deps]
+
+source_file="res://Tiny RPG Character Asset Pack 01 v2.0 -Full 22 Characters/Characters(100x100 split)/Knight/Knight.aseprite"
+dest_files=["res://.godot/imported/Knight.aseprite-bb9a52d0cc42afaf0706d241a1bd300c.res"]
+
+[params]
+

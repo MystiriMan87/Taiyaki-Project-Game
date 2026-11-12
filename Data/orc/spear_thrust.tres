@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="BattleAction" load_steps=2 format=3 uid="uid://cmyauyu3fbmjs"]
+
+[ext_resource type="Script" uid="uid://dd50utfwvmokr" path="res://Scripts/battle_action.gd" id="1_y2mja"]
+
+[resource]
+script = ExtResource("1_y2mja")
+display_name = "Spear Thrust"
+animation = "attack2"
+metadata/_custom_type_script = "uid://dd50utfwvmokr"

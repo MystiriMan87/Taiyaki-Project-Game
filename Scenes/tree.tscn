@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://bsvqmau1ekp5l"]
+
+[ext_resource type="Texture2D" uid="uid://xv3aqw4vm6ix" path="res://Art/tree16x16layered-export.png" id="1_0vwjc"]
+[ext_resource type="Script" uid="uid://dcjg4udiux0wo" path="res://Scripts/tree_sway.gd" id="1_rsuno"]
+[ext_resource type="Script" uid="uid://dtywp6c4xe44d" path="res://Scripts/leaf_drift.gd" id="3_l7sa7"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rsuno"]
+radius = 4.0
+
+[node name="Tree" type="Node2D" unique_id=1382633439]
+script = ExtResource("1_rsuno")
+strength = 2.5
+speed_max = 2.4
+speed_min = 1.9
+
+[node name="Trunk" type="Sprite2D" parent="." unique_id=218079986]
+z_index = -2
+scale = Vector2(4, 4)
+texture = ExtResource("1_0vwjc")
+region_enabled = true
+region_rect = Rect2(0, 0, 32, 32)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Trunk" unique_id=198289967]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Trunk/StaticBody2D" unique_id=819442780]
+position = Vector2(0.25, 14.25)
+shape = SubResource("CircleShape2D_rsuno")
+
+[node name="Leavessprite" type="Sprite2D" parent="." unique_id=1218223539]
+z_index = 10
+position = Vector2(0, -12)
+scale = Vector2(4.1, 4.1)
+texture = ExtResource("1_0vwjc")
+region_enabled = true
+region_rect = Rect2(0, 32, 32, 26)
+
+[node name="Leaves" type="GPUParticles2D" parent="." unique_id=1937856291]
+scale = Vector2(1.5, 1.5)
+amount = 15
+script = ExtResource("3_l7sa7")
+leaf_color = Color(0.25490198, 0.36862746, 0.33333334, 1)
