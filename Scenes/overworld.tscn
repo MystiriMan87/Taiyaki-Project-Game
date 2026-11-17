@@ -15,34 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://ch6k8ci5s2kuk" path="res://Scenes/bush.tscn" id="13_uvbdg"]
 [ext_resource type="PackedScene" uid="uid://1ng0w05m05ek" path="res://Scenes/dimmedtree.tscn" id="14_gy7g8"]
 [ext_resource type="PackedScene" uid="uid://dq2jr7d8wyjqs" path="res://Scenes/npc.tscn" id="14_v8nvt"]
-[ext_resource type="Script" uid="uid://d080kxgy27rss" path="res://Scripts/dialogue.gd" id="15_5dcxx"]
 [ext_resource type="Script" uid="uid://rd7xslje58wy" path="res://Scripts/fog_zone.gd" id="17_gy7g8"]
-
-[sub_resource type="Resource" id="Resource_w7v6x"]
-script = ExtResource("15_5dcxx")
-requires_flag = "quest_done"
-lines = Array[String](["You did it!"])
-metadata/_custom_type_script = "uid://d080kxgy27rss"
-
-[sub_resource type="Resource" id="Resource_gy7g8"]
-script = ExtResource("15_5dcxx")
-requires_flag = "quest_accepted"
-lines = Array[String](["Any luck with the merging??"])
-metadata/_custom_type_script = "uid://d080kxgy27rss"
-
-[sub_resource type="Resource" id="Resource_5dcxx"]
-script = ExtResource("15_5dcxx")
-requires_flag = "has_merged"
-lines = Array[String](["You’ve already merged monsters? Impressive!"])
-set_flag = "quest_done"
-metadata/_custom_type_script = "uid://d080kxgy27rss"
-
-[sub_resource type="Resource" id="Resource_46gqp"]
-script = ExtResource("15_5dcxx")
-lines = Array[String](["Welcome Adverturer, I have a quest for you", "Can you merge an enemy?"])
-choices = Array[String](["Yes", "No"])
-choice_flags = Array[String](["quest_accepted"])
-metadata/_custom_type_script = "uid://d080kxgy27rss"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5dcxx"]
 size = Vector2(1295, 766)
@@ -680,7 +653,8 @@ position = Vector2(-1249, 333)
 [node name="NPC" parent="." unique_id=591516628 instance=ExtResource("14_v8nvt")]
 position = Vector2(-1433, 138)
 scale = Vector2(4, 4)
-dialogues = Array[ExtResource("15_5dcxx")]([SubResource("Resource_w7v6x"), SubResource("Resource_gy7g8"), SubResource("Resource_5dcxx"), SubResource("Resource_46gqp")])
+lines = Array[String]([])
+altar_mode = true
 
 [node name="Area2D" type="Area2D" parent="." unique_id=32825034]
 position = Vector2(-1385, 173)

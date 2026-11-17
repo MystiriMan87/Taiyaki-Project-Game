@@ -61,8 +61,8 @@ func _ready() -> void:
 	else:
 		push_warning("fog_zone: needs a child named 'CollisionShape2D' with a RectangleShape2D for the outside cloud.")
 
-	body_entered.connect(func(b): if b.is_in_group("player"): _fade(1.0))
-	body_exited.connect(func(b): if b.is_in_group("player"): _fade(0.0))
+	body_entered.connect(func(b): _on_body(b, true))
+	body_exited.connect(func(b): _on_body(b, false))
 
 func _fade(to: float) -> void:
 	if tween:
@@ -72,3 +72,9 @@ func _fade(to: float) -> void:
 	tween.tween_property(dim_rect, "color:a", 0.4 * to, fade_time)
 	if cloud_mat:
 		tween.tween_method(func(v: float): cloud_mat.set_shader_parameter("strength", v), cloud_mat.get_shader_parameter("strength"), 1.0 - to, fade_time)
+
+func _on_body(b: Node, entering: bool) -> void:
+	if not b.is_in_group("player"):
+		return
+	_fade(1.0 if entering else 0.0)
+	Game.show_feed_bar(entering)

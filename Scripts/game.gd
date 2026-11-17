@@ -14,6 +14,10 @@ var _fx_layer: CanvasLayer
 var _fx_rect: ColorRect
 var _swirl_mat: ShaderMaterial
 
+var feed_goal := 10
+var _feed_box: VBoxContainer
+var _feed_bar: ProgressBar
+
 const MAX_LEVEL := 50
 const MAX_PARTY := 3
 var party_level: Dictionary = {}
@@ -41,7 +45,10 @@ func _ready() -> void:
 		_fx_rect.material = _swirl_mat
 	else:
 		_fx_rect.color = Color.BLACK   # fallback: plain fade if the shader file is missing
-
+	
+	_build_feed_bar()
+	
+	
 func heal_party() -> void:
 	party_hp.clear()
 	party_mp.clear()
@@ -233,3 +240,49 @@ func merge(n: String) -> CharacterStats:
 	if flags.get("quest_accepted", false):
 		flags["quest_done"] = true
 	return result
+	
+func _build_feed_bar() -> void:
+	var layer := CanvasLayer.new()
+	layer.layer = 20
+	add_child(layer)
+	
+	_feed_box = VBoxContainer.new()
+	_feed_box.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP, Control.PRESET_MODE_MINSIZE, 16)
+	_feed_box.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	_feed_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_feed_box.modulate.a = 0.0
+	layer.add_child(_feed_box)
+	
+	var label := Label.new()
+	label.text = "Feed the Fog"
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.add_theme_color_override("font_outline_color", Color.BLACK)
+	label.add_theme_constant_override("outline_size", 6)
+	_feed_box.add_child(label)
+	
+	_feed_bar = ProgressBar.new()
+	_feed_bar.custom_minimum_size = Vector2(360, 18)
+	_feed_bar.show_percentage = false
+	var fill := StyleBoxFlat.new()
+	fill.bg_color = Color(0.85, 0.7, 0.35)
+	var back := StyleBoxFlat.new()
+	back.bg_color = Color(0.09, 0.11, 0.18, 0.95)
+	back.border_color = Color(0.85, 0.7, 0.35)
+	back.set_border_width_all(2)
+	_feed_bar.add_theme_stylebox_override("fill", fill)
+	_feed_bar.add_theme_stylebox_override("background", back)
+	_feed_box.add_child(_feed_bar)
+	
+func setup_feed(goal: int) -> void: 
+	feed_goal = goal
+	_feed_bar.max_value = goal
+	_feed_bar.value = flags.get("feed_points", 0)
+	
+func show_feed_bar(on: bool) -> void:
+	create_tween().tween_property(_feed_box, "modulate:a", 1.0 if on else 0.0, 0.5)
+	
+func add_feed(points: int) -> void:
+	flags["feed_points"] = flags.get("feed_points", 0) + points
+	create_tween().tween_property(_feed_bar, "value", flags["feed_points"], 0.6)
+	if flags["feed_points"] >= feed_goal:
+		flags["fog_fed"] = true
